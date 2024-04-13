@@ -1,8 +1,7 @@
-package com.bibliproject.biblioteca.domain.dto;
+package com.bibliproject.biblioteca.domain.dto.request;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.bibliproject.biblioteca.domain.dto.AuthorDto;
+import com.bibliproject.biblioteca.domain.dto.CategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BookDto {
+public class BookRequestDto {
 
     private int stockQuantity;
     private String title;

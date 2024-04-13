@@ -4,4 +4,12 @@ spring:
   application:
     name: biblioteca
   datasource:
-    url:
+    url: jdbc:postgresql://localhost:5432/biblioteca
+    username: postgres
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

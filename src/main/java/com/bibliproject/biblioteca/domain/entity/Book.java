@@ -20,15 +20,14 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int stockQuantity;
     private String title;
-
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Author author;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Category> category;
-
+    private List<Category> categories;
 
     private String isbn;
     private String publisher;
