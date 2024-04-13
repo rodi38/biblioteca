@@ -11,10 +11,11 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Book book;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_student")
     private Student student;
     private Date loanDate;
     private Date returnDate;

@@ -1,8 +1,7 @@
 package com.bibliproject.biblioteca.controller;
 
 
-import com.bibliproject.biblioteca.domain.dto.BookDTO;
-import com.bibliproject.biblioteca.service.BookService;
+import com.bibliproject.biblioteca.domain.dto.BookDto;
 import com.bibliproject.biblioteca.service.LoanService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,7 @@ public class LoanController {
 
     private LoanService loanService;
 
-    public ResponseEntity<BookDTO> create(@RequestBody BookDTO request) {
+    public ResponseEntity<BookDto> create(@RequestBody BookDto request) {
         return ResponseEntity.ok(request);
     }
 
