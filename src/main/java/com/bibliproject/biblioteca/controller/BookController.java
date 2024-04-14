@@ -6,10 +6,9 @@ import com.bibliproject.biblioteca.service.BookService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/book")
@@ -17,6 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     private BookService bookService;
+
+
+
+    @GetMapping
+    public ResponseEntity<List<BookDto>> findAll() {
+        List<BookDto> bookDTO = bookService.findAll();
+        return ResponseEntity.ok(bookDTO);
+    }
 
 
     @PostMapping

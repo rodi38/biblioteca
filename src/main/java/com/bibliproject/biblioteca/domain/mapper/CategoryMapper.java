@@ -12,7 +12,7 @@ public interface CategoryMapper {
 
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "book", ignore = true)
     Category convertDtoToEntity(CategoryDto categoryDto);
     CategoryDto convertEntityToDto(Category category);
 

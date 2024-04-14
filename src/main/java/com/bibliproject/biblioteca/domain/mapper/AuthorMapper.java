@@ -11,7 +11,8 @@ import org.mapstruct.factory.Mappers;
 public interface AuthorMapper {
 
     AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
-    @Mapping(target = "id", ignore = true)
+
+    //@Mapping(target = "book", ignore = true)
     Author convertDtoToEntity(AuthorDto authorDto);
     AuthorDto convertEntityToDto(Author author);
 
