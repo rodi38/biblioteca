@@ -1,11 +1,15 @@
 package com.bibliproject.biblioteca.domain.mapper;
 
 
-import com.bibliproject.biblioteca.domain.dto.CategoryDto;
+import com.bibliproject.biblioteca.domain.dto.request.CategoryDto;
+import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.response.CategoryResponseDto;
+import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Category;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(uses = {BookMapper.class})
 public interface CategoryMapper {
@@ -14,7 +18,8 @@ public interface CategoryMapper {
 
     //@Mapping(target = "book", ignore = true)
     Category convertDtoToEntity(CategoryDto categoryDto);
-    CategoryDto convertEntityToDto(Category category);
+    CategoryResponseDto convertEntityToResponseDto(Category category);
 
+    List<CategoryResponseDto> convertEntityListToListResponseDto(List<Category> categories);
 
 }

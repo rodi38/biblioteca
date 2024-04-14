@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoanDto {
+public class LoanRequestDto {
 
     private BookDto book;
 

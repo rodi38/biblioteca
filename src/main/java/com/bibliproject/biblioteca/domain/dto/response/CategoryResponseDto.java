@@ -1,4 +1,4 @@
-package com.bibliproject.biblioteca.domain.dto;
+package com.bibliproject.biblioteca.domain.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CategoryDto {
+public class CategoryResponseDto {
+    private Long id;
     private String categoryName;
 }

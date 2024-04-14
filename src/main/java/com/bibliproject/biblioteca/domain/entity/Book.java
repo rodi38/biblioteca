@@ -23,11 +23,12 @@ public class Book {
 
     private int stockQuantity;
     private String title;
+
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Author author;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Category> categories;
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Category category;
 
     private String isbn;
     private String publisher;

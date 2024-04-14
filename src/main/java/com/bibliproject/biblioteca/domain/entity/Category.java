@@ -20,7 +20,8 @@ public class Category {
 
     private String categoryName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_book")
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_book", nullable = false)
     private Book book;
 }

@@ -26,6 +26,8 @@ public class Loan {
     @JoinColumn(name = "id_student")
     private Student student;
 
+    private Boolean hasOnStock;
+
     private Date loanDate;
 
     private Date returnDate;

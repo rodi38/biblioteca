@@ -19,7 +19,8 @@ public class Author {
     private Long id;
     private String name;
 
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_book")
+    @JoinColumn(name = "id_book", nullable = false)
     private Book book;
 }

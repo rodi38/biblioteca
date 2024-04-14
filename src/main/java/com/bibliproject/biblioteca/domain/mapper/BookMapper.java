@@ -1,6 +1,9 @@
 package com.bibliproject.biblioteca.domain.mapper;
 
 import com.bibliproject.biblioteca.domain.dto.BookDto;
+import com.bibliproject.biblioteca.domain.dto.request.BookForRequestPlus;
+import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Category;
 import org.mapstruct.AfterMapping;
@@ -16,12 +19,18 @@ public interface BookMapper {
 
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
+    //    @Mapping(target = "id", ignore = true)
+//    Book convertDtoToEntity(BookDto bookDto);
     @Mapping(target = "id", ignore = true)
-    Book convertDtoToEntity(BookDto bookDto);
+    Book convertDtoRequestToEntity(BookRequestDto bookRequestDto);
 
-    BookDto convertEntityToDto(Book book);
+    Book convertDtoResponsetToEntity(BookResponseDto bookRequestDto);
 
-    List<BookDto> convertEntityListToListDto(List<Book> books);
+    BookResponseDto convertEntityToDto(Book book);
+
+    List<BookResponseDto> convertEntityListToListDto(List<Book> books);
+
+    void update(@MappingTarget Book book, BookForRequestPlus bookRequestDto);
 
 
 }
