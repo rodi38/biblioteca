@@ -1,13 +1,11 @@
 package com.bibliproject.biblioteca.controller;
 
 
-import com.bibliproject.biblioteca.domain.dto.BookDto;
-import com.bibliproject.biblioteca.domain.dto.request.BookForRequestPlus;
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.service.BookService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +21,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookResponseDto>> findAll() {
-        List<BookResponseDto> books = bookService.findAll();
-        return ResponseEntity.ok(books);
+        return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
     }
 
 
@@ -35,7 +32,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponseDto> updateBook(@RequestBody BookForRequestPlus bookRequestDto, @PathVariable Long id) {
+    public ResponseEntity<BookResponseDto> updateBook(@RequestBody BookRequestDto bookRequestDto, @PathVariable Long id) {
         BookResponseDto bookResponseDto = bookService.updateBook(id, bookRequestDto);
 
         return ResponseEntity.ok(bookResponseDto);

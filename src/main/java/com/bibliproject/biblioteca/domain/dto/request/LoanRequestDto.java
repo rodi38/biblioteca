@@ -1,5 +1,7 @@
-package com.bibliproject.biblioteca.domain.dto;
+package com.bibliproject.biblioteca.domain.dto.request;
 
+import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,9 @@ import java.util.Date;
 @Setter
 public class LoanRequestDto {
 
-    private BookDto book;
+    private BookResponseDto book;
+
+    private StudentResponseDto student;
 
     private Date loanDate;
 

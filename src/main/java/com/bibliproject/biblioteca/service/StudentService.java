@@ -1,19 +1,14 @@
 package com.bibliproject.biblioteca.service;
 
 
-import com.bibliproject.biblioteca.domain.dto.request.CategoryDto;
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.CategoryResponseDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
-import com.bibliproject.biblioteca.domain.entity.Category;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -32,15 +27,15 @@ public class StudentService {
     }
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
-        Student student = StudentMapper.INSTANCE.convertDtoToEntity(studentRequestDto);
-
+        System.out.println(studentRequestDto.getEmail());
+        Student student = StudentMapper.INSTANCE.convertDtoRequestToEntity(studentRequestDto);
         studentRepository.save(student);
 
         return StudentMapper.INSTANCE.convertEntityToResponseDto(student);
     }
 
     public StudentResponseDto update(long id, StudentRequestDto studentRequestDto) {
-        Student student = StudentMapper.INSTANCE.convertDtoToEntity(studentRequestDto);
+        Student student = StudentMapper.INSTANCE.convertDtoRequestToEntity(studentRequestDto);
 
         student.setId(id);
 

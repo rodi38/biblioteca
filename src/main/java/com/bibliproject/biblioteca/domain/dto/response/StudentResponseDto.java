@@ -1,7 +1,6 @@
 package com.bibliproject.biblioteca.domain.dto.response;
 
 
-import com.bibliproject.biblioteca.domain.dto.LoanResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 public class StudentResponseDto {
+    private Long id;
 
     private String fullName;
 

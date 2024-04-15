@@ -1,7 +1,7 @@
 package com.bibliproject.biblioteca.domain.dto.request;
 
-import com.bibliproject.biblioteca.domain.dto.LoanRequestDto;
-import com.bibliproject.biblioteca.domain.dto.LoanResponseDto;
+
+import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +19,5 @@ public class StudentRequestDto {
 
     private String email;
 
-    private List<LoanRequestDto> loans;
+    private List<LoanResponseDto> loans;
 }

@@ -1,4 +1,4 @@
-package com.bibliproject.biblioteca.domain.dto;
+package com.bibliproject.biblioteca.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,9 +13,14 @@ import java.util.Date;
 @Setter
 public class LoanResponseDto {
 
-    private BookDto book;
+    private Long id;
+
+    private BookResponseDto book;
+
+    private StudentResponseDto student;
 
     private Date loanDate;
 
     private Date returnDate;
 }
+

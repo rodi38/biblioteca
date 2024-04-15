@@ -23,15 +23,15 @@ public class Book {
 
     private int stockQuantity;
     private String title;
+    private String author;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Author author;
-
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Category category;
-
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Loan> loan;
+    private String category;
     private String isbn;
     private String publisher;
     private int publishedYear;
+
+
 
 }

@@ -1,17 +1,16 @@
 package com.bibliproject.biblioteca.controller;
 
 
-import com.bibliproject.biblioteca.domain.dto.BookDto;
-import com.bibliproject.biblioteca.domain.dto.LoanRequestDto;
-import com.bibliproject.biblioteca.domain.dto.LoanResponseDto;
-import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.LoanResponseDto;
-import com.bibliproject.biblioteca.service.LoanService;
+
+import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
+import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.service.LoanService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/loan")
@@ -24,9 +23,10 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    public ResponseEntity<LoanResponseDto> create(@RequestBody LoanRequestDto loanRequestDto) {
-        LoanResponseDto loanResponseDto = loanService.create(loanRequestDto);
-        return ResponseEntity.ok(loanResponseDto);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody LoanRequestDto loanRequestDto) {
+
+        return loanService.create(loanRequestDto);
     }
 
     @GetMapping

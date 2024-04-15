@@ -1,12 +1,9 @@
 package com.bibliproject.biblioteca.controller;
 
 
-import com.bibliproject.biblioteca.domain.dto.request.BookForRequestPlus;
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import com.bibliproject.biblioteca.service.StudentService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @PostMapping
     public ResponseEntity<StudentResponseDto> create(@RequestBody StudentRequestDto studentRequestDto) {
         StudentResponseDto response = studentService.create(studentRequestDto);
         return ResponseEntity.ok(response);

@@ -1,9 +1,12 @@
 package com.bibliproject.biblioteca.domain.dto.request;
 
+import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +15,9 @@ import lombok.Setter;
 public class BookRequestDto {
     private int stockQuantity;
     private String title;
-    private AuthorDto author;
-    private CategoryDto category;
+    private String author;
+    private List<LoanResponseDto> loan;
+    private String category;
     private String isbn;
     private String publisher;
     private int publishedYear;
