@@ -4,6 +4,7 @@ package com.bibliproject.biblioteca.controller;
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import com.bibliproject.biblioteca.service.StudentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<StudentResponseDto>> findAll() {
         List<StudentResponseDto> students = studentService.findAll();
-        return ResponseEntity.ok(students);
+        return ResponseEntity.status(HttpStatus.OK).body(students);
     }
 
     @PutMapping("/{id}")

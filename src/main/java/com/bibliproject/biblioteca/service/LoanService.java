@@ -11,8 +11,6 @@ import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,62 +32,57 @@ public class LoanService {
 
 
     public List<LoanResponseDto> findAll() {
-        return LoanMapper.INSTANCE.convertEntityListToListResponseDto(loanRepository.findAll());
+        List<LoanResponseDto> loans = LoanMapper.toDtoList(loanRepository.findAll());
+
+        System.out.println(loans);
+
+        System.out.println("the end total");
+        return loans;
     }
 
     public LoanResponseDto findById(long id) {
-        return LoanMapper.INSTANCE.convertEntityToResponseDto(loanRepository.findById(id).get());
+        return LoanMapper.toDto(loanRepository.findById(id).get());
     }
 
-    public ResponseEntity<Loan> create(LoanRequestDto loanRequestDto) {
-        System.out.println(loanRequestDto.getStudent().getId());
-        System.out.println(loanRequestDto.getBook().getId());
-        Book book = BookMapper.INSTANCE.convertDtoResponseToEntity(bookService.findById(loanRequestDto.getBook().getId()));
-        //Student student = StudentMapper.INSTANCE.convertDtoToResponseEntity((studentService.findById(loanRequestDto.getStudent().getId())));
+
+    public LoanResponseDto create(LoanRequestDto loanRequestDto) {
 
 
-//
-//          if (student == null) {
-//              return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-//          }
+//        System.out.println(loanRequestDto.getStudent().getId());
+//        System.out.println(loanRequestDto.getBook().getId());
+        Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBook().getId()));
+        Student student = StudentMapper.toEntity(studentService.findById(loanRequestDto.getStudent().getId()));
 
-//          if (book.getStockQuantity() <= 0){
-//              System.out.println("book getquantity");
-////              return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-//          }
+        if (book.getStockQuantity() <= 0) {
+            throw new IllegalArgumentException("O livro não está no estoque.");
+        }
+//        if (student == null) {
+//            throw new IllegalArgumentException("O estudante não existe.");
+//        }
 
-
-//          if (book != null){
         book.setStockQuantity(book.getStockQuantity() - 1);
-        var loan = new Loan();
-//              loan.setBook(book);
-//              loan.setStudent(student);
-        BeanUtils.copyProperties(loanRequestDto, loan);
-        bookService.updateBook(book.getId(), BookMapper.INSTANCE.convertEntityToRequestDto(book));
+        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
+        loan.setBook(book);
+        loan.setStudent(student);
 
-//              System.out.println(loan.getId() + " ID VAR LOAN");
-//              System.out.println(loan.getStudent().getId() + "ID VAR STUDENT LOAN");
-//              System.out.println(loanRequestDto.getStudent().getId() + "ID loanRequestDto LOAN");
-        // = LoanMapper.INSTANCE.convertDtoToEntity(loanRequestDto);
-//              loan.getStudent().setId(student.getId());
-//              System.out.println(loan.getId());
+
+
+        //bookService.updateBook(book.getId(), BookMapper.INSTANCE.convertEntityToRequestDto(book));
+        //studentService.update(student.getId(), StudentMapper.INSTANCE.convertEntityToRequestDto(student));
         loanRepository.saveAndFlush(loan);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(loan);
-//          }
+        return LoanMapper.toDto(loan);
 
-
-//        return null;
     }
 
     public LoanResponseDto update(long id, LoanRequestDto loanRequestDto) {
-        Loan loan = LoanMapper.INSTANCE.convertDtoRequestToEntity(loanRequestDto);
+        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
 
         loan.setId(id);
 
         loanRepository.save(loan);
 
-        return LoanMapper.INSTANCE.convertEntityToResponseDto(loan);
+        return LoanMapper.toDto(loan);
     }
 
     public boolean delete(long id) {

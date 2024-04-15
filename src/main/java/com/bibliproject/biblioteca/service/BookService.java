@@ -13,9 +13,7 @@ import java.util.Optional;
 
 
 @Service
-
 public class BookService {
-
     private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
@@ -24,22 +22,29 @@ public class BookService {
 
     public List<BookResponseDto> findAll() {
         List<Book> books = bookRepository.findAll();
-        return BookMapper.INSTANCE.convertEntityListToListResponseDto(books);
+        return BookMapper.toDtoList(books);
     }
 
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
-        Book book = BookMapper.INSTANCE.convertDtoRequestToEntity(bookRequestDto);
+        System.out.println("t1");
+        if (bookRequestDto == null){
+            throw new NullPointerException("livro nulo.");
+        }
+        Book book = BookMapper.dtoRequestToEntity(bookRequestDto);
+        System.out.println("t2");
+
+        System.out.println(bookRequestDto);
         bookRepository.saveAndFlush(book);
-        return BookMapper.INSTANCE.convertEntityToResponseDto((book));
+        return BookMapper.toDto(book);
     }
 
 
 
     public BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto) {
-        Book book = BookMapper.INSTANCE.convertDtoResponseToEntity(findById(id));
-        BookMapper.INSTANCE.update(book, bookRequestDto);
+        Book book = BookMapper.toEntityWithoutLoans(findById(id));
+        BookMapper.bookUpdate(book, bookRequestDto);
         Book savedBook = bookRepository.save(book);
-        return BookMapper.INSTANCE.convertEntityToResponseDto(savedBook);
+        return BookMapper.toDto(savedBook);
     }
 
 
@@ -49,7 +54,7 @@ public class BookService {
     }
 
     public BookResponseDto findById(Long id) {
-        return BookMapper.INSTANCE.convertEntityToResponseDto(bookRepository.findById(id)
+        return BookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id)));
     }
 

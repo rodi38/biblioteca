@@ -1,10 +1,8 @@
 package com.bibliproject.biblioteca.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,6 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@Table(name = "loans")
 public class Loan {
 
     @Id
@@ -21,12 +20,15 @@ public class Loan {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_book")
+    @JsonBackReference
     private Book book;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_student")
+    @JsonBackReference
     private Student student;
 
+    //private int borrowedBookQuantity;
 
     private Date loanDate;
 

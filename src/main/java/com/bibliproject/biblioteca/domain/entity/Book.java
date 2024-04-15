@@ -3,10 +3,7 @@ package com.bibliproject.biblioteca.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -26,7 +24,9 @@ public class Book {
     private String author;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Loan> loan;
+    @JsonManagedReference
+    private List<Loan> loans;
+
     private String category;
     private String isbn;
     private String publisher;

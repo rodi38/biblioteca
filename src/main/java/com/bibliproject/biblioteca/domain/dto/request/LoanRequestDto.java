@@ -2,10 +2,7 @@ package com.bibliproject.biblioteca.domain.dto.request;
 
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class LoanRequestDto {
 
     private BookResponseDto book;

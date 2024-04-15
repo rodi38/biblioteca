@@ -20,28 +20,33 @@ public class StudentService {
 
 
     public List<StudentResponseDto> findAll() {
-        return StudentMapper.INSTANCE.convertEntityListToListResponseDto(studentRepository.findAll());
+        return StudentMapper.toDtoList(studentRepository.findAll());
     }
     public StudentResponseDto findById(long id) {
-        return StudentMapper.INSTANCE.convertEntityToResponseDto(studentRepository.findById(id).get());
+        return StudentMapper.toDto(studentRepository.findById(id).get());
     }
+
+//    public Student findByIdEntity(long id) {
+//        return studentRepository.findById(id).get();
+//    }
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());
-        Student student = StudentMapper.INSTANCE.convertDtoRequestToEntity(studentRequestDto);
+        Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
+        System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
         studentRepository.save(student);
 
-        return StudentMapper.INSTANCE.convertEntityToResponseDto(student);
+        return StudentMapper.toDto(student);
     }
 
     public StudentResponseDto update(long id, StudentRequestDto studentRequestDto) {
-        Student student = StudentMapper.INSTANCE.convertDtoRequestToEntity(studentRequestDto);
+        Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
 
         student.setId(id);
 
         studentRepository.save(student);
 
-        return StudentMapper.INSTANCE.convertEntityToResponseDto(student);
+        return StudentMapper.toDto(student);
     }
 
     public boolean delete(long id) {
