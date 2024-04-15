@@ -24,8 +24,8 @@ public class BookResponseDto {
 
     public void isStockZero() {
         if (stockQuantity == 0) {
-            this.hasOnStock = false;
+            this.setHasOnStock(false);
         }
-        this.hasOnStock = true;
+        this.setHasOnStock(false);
     }
 }

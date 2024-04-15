@@ -26,9 +26,6 @@ public class StudentService {
         return StudentMapper.toDto(studentRepository.findById(id).get());
     }
 
-//    public Student findByIdEntity(long id) {
-//        return studentRepository.findById(id).get();
-//    }
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());

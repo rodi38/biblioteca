@@ -28,8 +28,6 @@ public class Loan {
     @JsonBackReference
     private Student student;
 
-    //private int borrowedBookQuantity;
-
     private Date loanDate;
 
     private Date returnDate;

@@ -47,18 +47,12 @@ public class LoanService {
 
     public LoanResponseDto create(LoanRequestDto loanRequestDto) {
 
-
-//        System.out.println(loanRequestDto.getStudent().getId());
-//        System.out.println(loanRequestDto.getBook().getId());
         Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBook().getId()));
         Student student = StudentMapper.toEntity(studentService.findById(loanRequestDto.getStudent().getId()));
 
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
         }
-//        if (student == null) {
-//            throw new IllegalArgumentException("O estudante não existe.");
-//        }
 
         book.setStockQuantity(book.getStockQuantity() - 1);
         Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
@@ -66,9 +60,6 @@ public class LoanService {
         loan.setStudent(student);
 
 
-
-        //bookService.updateBook(book.getId(), BookMapper.INSTANCE.convertEntityToRequestDto(book));
-        //studentService.update(student.getId(), StudentMapper.INSTANCE.convertEntityToRequestDto(student));
         loanRepository.saveAndFlush(loan);
 
         return LoanMapper.toDto(loan);
