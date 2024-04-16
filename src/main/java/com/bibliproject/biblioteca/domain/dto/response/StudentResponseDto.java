@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.dto.response;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -17,5 +16,5 @@ public class StudentResponseDto {
 
     private String email;
 
-    private List<LoanResponseDto> loans;
+    private List < LoanResponseDto > loans;
 }

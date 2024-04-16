@@ -20,7 +20,7 @@ public class LoanMapper {
         return loan;
     }
 
-    public static Loan dtoRequestToEntity(LoanRequestDto loanRequestDto){
+    public static Loan dtoRequestToEntity(LoanRequestDto loanRequestDto) {
         Loan loan = new Loan();
 
         loan.setLoanDate(loanRequestDto.getLoanDate());
@@ -52,35 +52,34 @@ public class LoanMapper {
         return loanResponseDto;
     }
 
-    public static List<Loan> toEntityListWithoutLoans(List<LoanResponseDto> loanResponseDto) {
+    public static List < Loan > toEntityListWithoutLoans(List < LoanResponseDto > loanResponseDto) {
         if (loanResponseDto == null) {
             return null;
         }
-        List<Loan> loanList = new ArrayList<>();
+        List < Loan > loanList = new ArrayList < > ();
 
-        for (LoanResponseDto loanResponseDto1 : loanResponseDto) {
+        for (LoanResponseDto loanResponseDto1: loanResponseDto) {
             loanList.add(toEntityWithoutLoans(loanResponseDto1));
         }
 
         return loanList;
     }
-    public static List<LoanResponseDto> toDtoListWithoutLoans(List<Loan> loanList) {
+    public static List < LoanResponseDto > toDtoListWithoutLoans(List < Loan > loanList) {
         if (loanList == null) {
             return null;
         }
-        List<LoanResponseDto> loanResponseDtoList = new ArrayList<>();
+        List < LoanResponseDto > loanResponseDtoList = new ArrayList < > ();
 
-        for (Loan loan : loanList) {
+        for (Loan loan: loanList) {
             loanResponseDtoList.add(toDtoWithoutLoans(loan));
         }
 
         return loanResponseDtoList;
     }
 
-
     //with loans
 
-//
+    //
     public static Loan toEntity(LoanResponseDto loanResponseDto) {
         Loan loan = new Loan();
 
@@ -103,25 +102,25 @@ public class LoanMapper {
         return loanResponseDto;
     }
 
-    public static List<Loan> toEntityList(List<LoanResponseDto> loanResponseDto) {
+    public static List < Loan > toEntityList(List < LoanResponseDto > loanResponseDto) {
         if (loanResponseDto == null) {
             return null;
         }
-        List<Loan> loanList = new ArrayList<>();
+        List < Loan > loanList = new ArrayList < > ();
 
-        for (LoanResponseDto loanResponseDto1 : loanResponseDto) {
+        for (LoanResponseDto loanResponseDto1: loanResponseDto) {
             loanList.add(toEntity(loanResponseDto1));
         }
 
         return loanList;
     }
-    public static List<LoanResponseDto> toDtoList(List<Loan> loanList) {
+    public static List < LoanResponseDto > toDtoList(List < Loan > loanList) {
         if (loanList == null) {
             return null;
         }
-        List<LoanResponseDto> loanResponseDtoList = new ArrayList<>();
+        List < LoanResponseDto > loanResponseDtoList = new ArrayList < > ();
 
-        for (Loan loan : loanList) {
+        for (Loan loan: loanList) {
             loanResponseDtoList.add(toDto(loan));
         }
 

@@ -30,9 +30,8 @@ public class LoanService {
         this.studentService = studentService;
     }
 
-
-    public List<LoanResponseDto> findAll() {
-        List<LoanResponseDto> loans = LoanMapper.toDtoList(loanRepository.findAll());
+    public List < LoanResponseDto > findAll() {
+        List < LoanResponseDto > loans = LoanMapper.toDtoList(loanRepository.findAll());
 
         System.out.println(loans);
 
@@ -43,7 +42,6 @@ public class LoanService {
     public LoanResponseDto findById(long id) {
         return LoanMapper.toDto(loanRepository.findById(id).get());
     }
-
 
     public LoanResponseDto create(LoanRequestDto loanRequestDto) {
 
@@ -58,7 +56,6 @@ public class LoanService {
         Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
         loan.setBook(book);
         loan.setStudent(student);
-
 
         loanRepository.saveAndFlush(loan);
 

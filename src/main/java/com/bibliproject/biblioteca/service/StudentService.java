@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.service;
 
-
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Student;
@@ -18,14 +17,12 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-
-    public List<StudentResponseDto> findAll() {
+    public List < StudentResponseDto > findAll() {
         return StudentMapper.toDtoList(studentRepository.findAll());
     }
     public StudentResponseDto findById(long id) {
         return StudentMapper.toDto(studentRepository.findById(id).get());
     }
-
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());

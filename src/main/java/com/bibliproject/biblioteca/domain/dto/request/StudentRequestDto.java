@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.dto.request;
 
-
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import lombok.*;
 
@@ -17,5 +16,5 @@ public class StudentRequestDto {
 
     private String email;
 
-    private List<LoanResponseDto> loans;
+    private List < LoanResponseDto > loans;
 }

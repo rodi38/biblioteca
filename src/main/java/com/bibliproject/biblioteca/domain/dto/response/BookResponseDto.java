@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.dto.response;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class BookResponseDto {
     private int stockQuantity;
     private String title;
     private String author;
-    private List<LoanResponseDto> loans;
+    private List < LoanResponseDto > loans;
     private boolean hasOnStock;
     private String category;
     private String isbn;

@@ -19,17 +19,17 @@ public class BookMapper {
         book.setPublishedYear(bookResponseDto.getPublishedYear());
         return book;
     }
-    public static List<Book>  toEntityListWithoutLoans(List<BookResponseDto> bookResponseDto) {
+    public static List < Book > toEntityListWithoutLoans(List < BookResponseDto > bookResponseDto) {
         if (bookResponseDto == null) {
             return null;
         }
-        List<Book> books = new ArrayList<>();
+        List < Book > books = new ArrayList < > ();
 
-        for (BookResponseDto bookResponseDto1 : bookResponseDto) {
+        for (BookResponseDto bookResponseDto1: bookResponseDto) {
             books.add(toEntityWithoutLoans(bookResponseDto1));
         }
 
-        return  books;
+        return books;
     }
 
     public static BookResponseDto toDtoWithoutLoans(Book book) {
@@ -44,19 +44,18 @@ public class BookMapper {
         return bookResponseDto;
     }
 
-    public static List<BookResponseDto> toDtoListWithoutLoans(List<Book> books) {
+    public static List < BookResponseDto > toDtoListWithoutLoans(List < Book > books) {
         if (books == null) {
             return null;
         }
-        List<BookResponseDto> bookResponseDtos = new ArrayList<>();
-        for (Book bookResponseDto1 : books) {
+        List < BookResponseDto > bookResponseDtos = new ArrayList < > ();
+        for (Book bookResponseDto1: books) {
             bookResponseDtos.add(toDtoWithoutLoans(bookResponseDto1));
         }
 
-        return  bookResponseDtos;
+        return bookResponseDtos;
 
     }
-
 
     //with loans
 
@@ -78,7 +77,6 @@ public class BookMapper {
 
     public static Book dtoRequestToEntity(BookRequestDto bookRequestDto) {
         Book book = new Book();
-        bookRequestDto.isStockZero();
 
         book.setStockQuantity(bookRequestDto.getStockQuantity());
         book.setTitle(bookRequestDto.getTitle());
@@ -92,7 +90,7 @@ public class BookMapper {
         return book;
     }
 
-    public static BookRequestDto entityToDtoRequest(Book book){
+    public static BookRequestDto entityToDtoRequest(Book book) {
         BookRequestDto bookRequestDto = new BookRequestDto();
 
         bookRequestDto.setStockQuantity(book.getStockQuantity());
@@ -121,30 +119,30 @@ public class BookMapper {
         return bookResponseDto;
     }
 
-    public static List<BookResponseDto> toDtoList(List<Book> books) {
+    public static List < BookResponseDto > toDtoList(List < Book > books) {
         if (books == null) {
             return null;
         }
-        List<BookResponseDto> bookResponseDtos = new ArrayList<>();
-        for (Book bookResponseDto1 : books) {
+        List < BookResponseDto > bookResponseDtos = new ArrayList < > ();
+        for (Book bookResponseDto1: books) {
             bookResponseDtos.add(toDtoWithoutLoans(bookResponseDto1));
         }
 
-        return  bookResponseDtos;
+        return bookResponseDtos;
 
     }
-//    public static List<Book>  toEntityList(List<BookResponseDto> bookResponseDto) {
-//        if (bookResponseDto == null) {
-//            return null;
-//        }
-//        List<Book> books = new ArrayList<>();
-//
-//        for (BookResponseDto bookResponseDto1 : bookResponseDto) {
-//            books.add(toEntityWithoutLoans(bookResponseDto1));
-//        }
-//
-//        return  books;
-//    }
+    //    public static List<Book>  toEntityList(List<BookResponseDto> bookResponseDto) {
+    //        if (bookResponseDto == null) {
+    //            return null;
+    //        }
+    //        List<Book> books = new ArrayList<>();
+    //
+    //        for (BookResponseDto bookResponseDto1 : bookResponseDto) {
+    //            books.add(toEntityWithoutLoans(bookResponseDto1));
+    //        }
+    //
+    //        return  books;
+    //    }
 
     public static void bookUpdate(Book book, BookRequestDto bookRequestDto) {
 

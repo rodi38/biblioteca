@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,5 +23,5 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Loan> loans;
+    private List < Loan > loans;
 }

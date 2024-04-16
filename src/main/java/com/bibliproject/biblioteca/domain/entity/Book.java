@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,13 +24,11 @@ public class Book {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Loan> loans;
+    private List < Loan > loans;
 
     private String category;
     private String isbn;
     private String publisher;
     private int publishedYear;
-
-
 
 }

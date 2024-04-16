@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class BookService {
     private final BookRepository bookRepository;
@@ -20,16 +19,17 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<BookResponseDto> findAll() {
-        List<Book> books = bookRepository.findAll();
+    public List < BookResponseDto > findAll() {
+        List < Book > books = bookRepository.findAll();
         return BookMapper.toDtoList(books);
     }
 
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
         System.out.println("t1");
-        if (bookRequestDto == null){
+        if (bookRequestDto == null) {
             throw new NullPointerException("livro nulo.");
         }
+        bookRequestDto.setHasOnStock(bookRequestDto.isStockZero());
         Book book = BookMapper.dtoRequestToEntity(bookRequestDto);
         System.out.println("t2");
 
@@ -38,15 +38,12 @@ public class BookService {
         return BookMapper.toDto(book);
     }
 
-
-
     public BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto) {
         Book book = BookMapper.toEntityWithoutLoans(findById(id));
         BookMapper.bookUpdate(book, bookRequestDto);
         Book savedBook = bookRepository.save(book);
         return BookMapper.toDto(savedBook);
     }
-
 
     public boolean deleteBook(long id) {
         bookRepository.deleteById(id);
@@ -57,6 +54,5 @@ public class BookService {
         return BookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id)));
     }
-
 
 }

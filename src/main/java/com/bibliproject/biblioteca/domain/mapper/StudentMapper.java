@@ -31,34 +31,32 @@ public class StudentMapper {
         return studentResponseDto;
     }
 
-    public static List<StudentResponseDto> toDtoListWithoutLoans( List<Student> student) {
+    public static List < StudentResponseDto > toDtoListWithoutLoans(List < Student > student) {
         if (student == null) {
             return null;
         }
 
-        List<StudentResponseDto> studentResponseDtoList = new ArrayList<>();
+        List < StudentResponseDto > studentResponseDtoList = new ArrayList < > ();
 
-        for (Student studentResponseDtoList1 : student) {
+        for (Student studentResponseDtoList1: student) {
             studentResponseDtoList.add(toDtoWithoutLoans(studentResponseDtoList1));
         }
 
         return studentResponseDtoList;
     }
 
-    public static List<Student> toEntityListWithoutLoans( List<StudentResponseDto> studentResponseDtoList) {
+    public static List < Student > toEntityListWithoutLoans(List < StudentResponseDto > studentResponseDtoList) {
         if (studentResponseDtoList == null) {
             return null;
         }
-        List<Student> studentList = new ArrayList<>();
+        List < Student > studentList = new ArrayList < > ();
 
-        for (StudentResponseDto studentResponseDtoList1 : studentResponseDtoList) {
+        for (StudentResponseDto studentResponseDtoList1: studentResponseDtoList) {
             studentList.add(toEntityWithoutLoans(studentResponseDtoList1));
         }
 
         return studentList;
     }
-
-
 
     // with loans
     public static Student toEntity(StudentResponseDto studentResponseDto) {
@@ -83,7 +81,7 @@ public class StudentMapper {
         return studentResponseDto;
     }
 
-    public static Student dtoRequestToEntity(StudentRequestDto studentRequestDto){
+    public static Student dtoRequestToEntity(StudentRequestDto studentRequestDto) {
         Student student = new Student();
 
         student.setFullName(studentRequestDto.getFullName());
@@ -91,7 +89,7 @@ public class StudentMapper {
         student.setLoans(LoanMapper.toEntityList(studentRequestDto.getLoans()));
         return student;
     }
-    public static StudentRequestDto entityToDtoRequest(Student student){
+    public static StudentRequestDto entityToDtoRequest(Student student) {
         StudentRequestDto studentRequestDto = new StudentRequestDto();
 
         studentRequestDto.setFullName(student.getFullName());
@@ -100,28 +98,27 @@ public class StudentMapper {
         return studentRequestDto;
     }
 
-    public static List<StudentResponseDto> toDtoList( List<Student> student) {
+    public static List < StudentResponseDto > toDtoList(List < Student > student) {
         if (student == null) {
             return null;
         }
-        List<StudentResponseDto> studentResponseDtoList = new ArrayList<>();
+        List < StudentResponseDto > studentResponseDtoList = new ArrayList < > ();
 
-        for (Student studentResponseDtoList1 : student) {
+        for (Student studentResponseDtoList1: student) {
             studentResponseDtoList.add(toDto(studentResponseDtoList1));
         }
 
         return studentResponseDtoList;
     }
 
-    public static List<Student> toEntityList( List<StudentResponseDto> studentResponseDtoList) {
-        List<Student> studentList = new ArrayList<>();
+    public static List < Student > toEntityList(List < StudentResponseDto > studentResponseDtoList) {
+        List < Student > studentList = new ArrayList < > ();
 
-        for (StudentResponseDto studentResponseDtoList1 : studentResponseDtoList) {
+        for (StudentResponseDto studentResponseDtoList1: studentResponseDtoList) {
             studentList.add(toEntity(studentResponseDtoList1));
         }
 
         return studentList;
     }
-
 
 }

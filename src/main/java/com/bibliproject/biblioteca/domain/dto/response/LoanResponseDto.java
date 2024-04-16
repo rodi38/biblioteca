@@ -21,4 +21,3 @@ public class LoanResponseDto {
 
     private Date returnDate;
 }
-
