@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
@@ -18,19 +19,23 @@ public class StudentService {
     }
 
     public List < StudentResponseDto > findAll() {
-        return StudentMapper.toDtoList(studentRepository.findAll());
+        List<Student> students = studentRepository.findAll();
+        return StudentMapper.toDtoListWithoutLoans(students);
     }
     public StudentResponseDto findById(long id) {
-        return StudentMapper.toDto(studentRepository.findById(id).get());
+        return StudentMapper.toDtoWithoutLoans(studentRepository.findById(id).get());
     }
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());
+        if (studentRequestDto == null) {
+            throw new NullPointerException("livro nulo.");
+        }
         Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
-        System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
-        studentRepository.save(student);
+        //System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
+        studentRepository.saveAndFlush(student);
 
-        return StudentMapper.toDto(student);
+        return StudentMapper.toDtoWithoutLoans(student);
     }
 
     public StudentResponseDto update(long id, StudentRequestDto studentRequestDto) {
@@ -40,7 +45,7 @@ public class StudentService {
 
         studentRepository.save(student);
 
-        return StudentMapper.toDto(student);
+        return StudentMapper.toDtoWithoutLoans(student);
     }
 
     public boolean delete(long id) {

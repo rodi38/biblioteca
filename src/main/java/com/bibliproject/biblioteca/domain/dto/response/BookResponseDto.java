@@ -14,17 +14,10 @@ public class BookResponseDto {
     private int stockQuantity;
     private String title;
     private String author;
-    private List < LoanResponseDto > loans;
-    private boolean hasOnStock;
+    private LoanResponseDto loan;
     private String category;
     private String isbn;
     private String publisher;
     private int publishedYear;
 
-    public void isStockZero() {
-        if (stockQuantity == 0) {
-            this.setHasOnStock(false);
-        }
-        this.setHasOnStock(false);
-    }
 }

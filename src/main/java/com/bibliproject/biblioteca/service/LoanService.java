@@ -31,22 +31,19 @@ public class LoanService {
     }
 
     public List < LoanResponseDto > findAll() {
-        List < LoanResponseDto > loans = LoanMapper.toDtoList(loanRepository.findAll());
+        List < Loan > loans = loanRepository.findAll();
 
-        System.out.println(loans);
-
-        System.out.println("the end total");
-        return loans;
+        return LoanMapper.toDtoListWithoutLoans(loans);
     }
 
     public LoanResponseDto findById(long id) {
-        return LoanMapper.toDto(loanRepository.findById(id).get());
+        return LoanMapper.toDtoWithoutLoans(loanRepository.findById(id).get());
     }
 
     public LoanResponseDto create(LoanRequestDto loanRequestDto) {
 
-        Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBook().getId()));
-        Student student = StudentMapper.toEntity(studentService.findById(loanRequestDto.getStudent().getId()));
+        Book book = BookMapper.toEntityWithoutLoans(bookService.findById(loanRequestDto.getBook().getId()));
+        Student student = StudentMapper.toEntityWithoutLoans(studentService.findById(loanRequestDto.getStudent().getId()));
 
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
@@ -56,10 +53,10 @@ public class LoanService {
         Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
         loan.setBook(book);
         loan.setStudent(student);
-
+        loan.getStudent().setLoans(loanRepository.findLoansByStudentId(student.getId()));
         loanRepository.saveAndFlush(loan);
 
-        return LoanMapper.toDto(loan);
+        return LoanMapper.toDtoWithoutLoans(loan);
 
     }
 
@@ -70,7 +67,7 @@ public class LoanService {
 
         loanRepository.save(loan);
 
-        return LoanMapper.toDto(loan);
+        return LoanMapper.toDtoWithoutLoans(loan);
     }
 
     public boolean delete(long id) {
