@@ -21,37 +21,34 @@ public class BookService {
 
     public List < BookResponseDto > findAll() {
         List < Book > books = bookRepository.findAll();
-        return BookMapper.toDtoListWithoutLoans(books);
+        return BookMapper. toDtoList(books);
     }
 
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
-        System.out.println("t1");
         if (bookRequestDto == null) {
             throw new NullPointerException("livro nulo.");
         }
-        //bookRequestDto.setHasOnStock(bookRequestDto.isStockZero());
         Book book = BookMapper.dtoRequestToEntity(bookRequestDto);
-        System.out.println("t2");
 
-        System.out.println(bookRequestDto);
         bookRepository.saveAndFlush(book);
-        return BookMapper.toDtoWithoutLoans(book);
+        return BookMapper.toDtoResponse(book);
     }
 
     public BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto) {
-        Book book = BookMapper.toEntityWithoutLoans(findById(id));
+        Book book = BookMapper.toEntity(findById(id));
         BookMapper.bookUpdate(book, bookRequestDto);
         Book savedBook = bookRepository.save(book);
-        return BookMapper.toDtoWithoutLoans(savedBook);
+        return BookMapper.toDtoResponse(savedBook);
     }
 
     public boolean deleteBook(long id) {
-        bookRepository.deleteById(id);
+        Book book = BookMapper.toEntity(findById(id));
+        bookRepository.delete(book);
         return true;
     }
 
     public BookResponseDto findById(Long id) {
-        return BookMapper.toDtoWithoutLoans(bookRepository.findById(id)
+        return BookMapper.toDtoResponse(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id)));
     }
 

@@ -3,11 +3,17 @@ package com.bibliproject.biblioteca.domain.mapper;
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Loan;
+import com.bibliproject.biblioteca.repository.BookRepository;
+import com.bibliproject.biblioteca.repository.LoanRepository;
+import com.bibliproject.biblioteca.service.BookService;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 public class LoanMapper {
+    private static BookService bookService;
 
     public static Loan toEntityWithoutLoans(LoanResponseDto loanResponseDto) {
         Loan loan = new Loan();
@@ -15,7 +21,7 @@ public class LoanMapper {
         loan.setId(loanResponseDto.getId());
         loan.setLoanDate(loanResponseDto.getLoanDate());
         loan.setReturnDate(loanResponseDto.getReturnDate());
-        loan.setBook(BookMapper.toEntityWithoutLoans(loanResponseDto.getBook()));
+        loan.setBook(BookMapper.toEntity(loanResponseDto.getBook()));
         loan.setStudent(StudentMapper.toEntityWithoutLoans(loanResponseDto.getStudent()));
         return loan;
     }
@@ -25,30 +31,20 @@ public class LoanMapper {
 
         loan.setLoanDate(loanRequestDto.getLoanDate());
         loan.setReturnDate(loanRequestDto.getReturnDate());
-        loan.setBook(BookMapper.toEntityWithoutLoans(loanRequestDto.getBook()));
-        loan.setStudent(StudentMapper.toEntityWithoutLoans(loanRequestDto.getStudent()));
-        loan.getBook().setLoans(toEntityListWithoutLoans(loanRequestDto.getBook().getLoans()));
-        loan.getStudent().setLoans(toEntityListWithoutLoans(loanRequestDto.getBook().getLoans()));
+//        loan.setBook(BookMapper.toEntity(bookRepository.findById()));
+//        loan.setStudent(StudentMapper.toEntityWithoutLoans(loanRequestDto.getStudent()));
+        //loan.getBook().(toEntityListWithoutLoans(loanRequestDto.getBook().getLoans()));
+        //loan.getStudent().setLoans(toEntityListWithoutLoans(loanRequestDto.getStudent().getLoan()));
 
 
         return loan;
     }
-    public static LoanRequestDto entityToLoanRequestDto(Loan loan) {
-        LoanRequestDto loanRequestDto = new LoanRequestDto();
-
-        loanRequestDto.setLoanDate(loan.getLoanDate());
-        loanRequestDto.setReturnDate(loan.getReturnDate());
-        loanRequestDto.setBook(BookMapper.toDtoWithoutLoans(loan.getBook()));
-        loanRequestDto.setStudent(StudentMapper.toDtoWithoutLoans(loan.getStudent()));
-        return loanRequestDto;
-    }
-
     public static LoanResponseDto toDtoWithoutLoans(Loan loan) {
         LoanResponseDto loanResponseDto = new LoanResponseDto();
         loanResponseDto.setId(loan.getId());
         loanResponseDto.setLoanDate(loan.getLoanDate());
         loanResponseDto.setReturnDate(loan.getReturnDate());
-        loanResponseDto.setBook(BookMapper.toDtoWithoutLoans(loan.getBook()));
+        loanResponseDto.setBook(BookMapper.toDtoResponse(loan.getBook()));
         loanResponseDto.setStudent(StudentMapper.toDtoWithoutLoans(loan.getStudent()));
 
         return loanResponseDto;

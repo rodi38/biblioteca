@@ -10,6 +10,8 @@ import com.bibliproject.biblioteca.domain.mapper.LoanMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +20,15 @@ import java.util.List;
 @Service
 public class LoanService {
     private final LoanRepository loanRepository;
-    private final BookRepository bookRepository;
+    //private final BookRepository bookRepository;
 
     private final StudentService studentService;
     private final BookService bookService;
 
-    public LoanService(LoanRepository loanRepository, BookService bookService, BookRepository bookRepository, StudentService studentService) {
+    public LoanService(LoanRepository loanRepository, BookService bookService, StudentService studentService) {
         this.bookService = bookService;
         this.loanRepository = loanRepository;
-        this.bookRepository = bookRepository;
+        //this.bookRepository = bookRepository;
         this.studentService = studentService;
     }
 
@@ -36,14 +38,15 @@ public class LoanService {
         return LoanMapper.toDtoListWithoutLoans(loans);
     }
 
-    public LoanResponseDto findById(long id) {
-        return LoanMapper.toDtoWithoutLoans(loanRepository.findById(id).get());
+    public LoanResponseDto findById(long id) {        return LoanMapper.toDtoWithoutLoans(loanRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Loan not found with id: " + id)));
+
     }
 
     public LoanResponseDto create(LoanRequestDto loanRequestDto) {
 
-        Book book = BookMapper.toEntityWithoutLoans(bookService.findById(loanRequestDto.getBook().getId()));
-        Student student = StudentMapper.toEntityWithoutLoans(studentService.findById(loanRequestDto.getStudent().getId()));
+        Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
+        Student student = StudentMapper.toEntityWithoutLoans(studentService.findById(loanRequestDto.getStudentId()));
 
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
@@ -52,8 +55,9 @@ public class LoanService {
         book.setStockQuantity(book.getStockQuantity() - 1);
         Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
         loan.setBook(book);
+        student.getLoans().add(loan);
         loan.setStudent(student);
-        loan.getStudent().setLoans(loanRepository.findLoansByStudentId(student.getId()));
+        //loan.getStudent().setLoans(loanRepository.findLoansByStudentId(student.getId()));
         loanRepository.saveAndFlush(loan);
 
         return LoanMapper.toDtoWithoutLoans(loan);
@@ -61,19 +65,17 @@ public class LoanService {
     }
 
     public LoanResponseDto update(long id, LoanRequestDto loanRequestDto) {
-        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
+        LoanResponseDto loanResponseDto = findById(id);
+        loanResponseDto.setLoanDate(loanRequestDto.getLoanDate());
+        loanResponseDto.setReturnDate(loanRequestDto.getReturnDate());
+        loanRepository.save(LoanMapper.toEntityWithoutLoans(loanResponseDto));
 
-        loan.setId(id);
-
-        loanRepository.save(loan);
-
-        return LoanMapper.toDtoWithoutLoans(loan);
+        return loanResponseDto;
     }
 
     public boolean delete(long id) {
-
-        loanRepository.deleteById(id);
-
+        Loan loan = LoanMapper.toEntityWithoutLoans(findById(id));
+        loanRepository.delete(loan);
         return true;
     }
 }

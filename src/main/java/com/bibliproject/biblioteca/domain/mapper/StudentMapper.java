@@ -56,68 +56,78 @@ public class StudentMapper {
         return studentList;
     }
 
-    // with loans
-//    public static Student toEntity(StudentResponseDto studentResponseDto) {
-//        Student student = new Student();
-//
-//        student.setId(studentResponseDto.getId());
-//        student.setFullName(studentResponseDto.getFullName());
-//        student.setEmail(studentResponseDto.getEmail());
-//        student.setLoans(LoanMapper.toEntityList(studentResponseDto.getLoans()));
-//
-//        return student;
-//
-//    }
-//    public static StudentResponseDto toDto(Student student) {
-//        StudentResponseDto studentResponseDto = new StudentResponseDto();
-//
-//        studentResponseDto.setId(student.getId());
-//        studentResponseDto.setFullName(student.getFullName());
-//        studentResponseDto.setEmail(student.getEmail());
-//        studentResponseDto.setLoans(LoanMapper.toDtoList(student.getLoans()));
-//
-//        return studentResponseDto;
-//    }
-//
-    public static Student dtoRequestToEntity(StudentRequestDto studentRequestDto) {
+    public static Student dtoRequestToEntity(StudentRequestDto requestDto) {
         Student student = new Student();
 
-        student.setFullName(studentRequestDto.getFullName());
-        student.setEmail(studentRequestDto.getEmail());
-        student.setLoans(null);
-        //student.setLoans(LoanMapper.toEntityList(studentRequestDto.getLoans()));
+        student.setFullName(requestDto.getFullName());
+        student.setEmail(requestDto.getEmail());
+        //student.setLoans(LoanMapper.toEntityList(requestDto.getLoans()));
         return student;
     }
-//    public static StudentRequestDto entityToDtoRequest(Student student) {
-//        StudentRequestDto studentRequestDto = new StudentRequestDto();
+
 //
-//        studentRequestDto.setFullName(student.getFullName());
-//        studentRequestDto.setEmail(student.getEmail());
-//        //studentRequestDto.setLoans(LoanMapper.toDtoList(student.getLoans()));
-//        return studentRequestDto;
+//    // with loans
+////    public static Student toEntity(StudentResponseDto studentResponseDto) {
+////        Student student = new Student();
+////
+////        student.setId(studentResponseDto.getId());
+////        student.setFullName(studentResponseDto.getFullName());
+////        student.setEmail(studentResponseDto.getEmail());
+////        student.setLoans(LoanMapper.toEntityList(studentResponseDto.getLoans()));
+////
+////        return student;
+////
+////    }
+////    public static StudentResponseDto toDto(Student student) {
+////        StudentResponseDto studentResponseDto = new StudentResponseDto();
+////
+////        studentResponseDto.setId(student.getId());
+////        studentResponseDto.setFullName(student.getFullName());
+////        studentResponseDto.setEmail(student.getEmail());
+////        studentResponseDto.setLoans(LoanMapper.toDtoList(student.getLoans()));
+////
+////        return studentResponseDto;
+////    }
+////
+//    public static Student dtoRequestToEntity(StudentRequestDto studentRequestDto) {
+//        Student student = new Student();
+//
+//        student.setFullName(studentRequestDto.getFullName());
+//        student.setEmail(studentRequestDto.getEmail());
+//        student.setLoans(null);
+//        //student.setLoans(LoanMapper.toEntityList(studentRequestDto.getLoans()));
+//        return student;
 //    }
-//
-//    public static List < StudentResponseDto > toDtoList(List < Student > student) {
-//        if (student == null) {
-//            return null;
-//        }
-//        List < StudentResponseDto > studentResponseDtoList = new ArrayList < > ();
-//
-//        for (Student studentResponseDtoList1: student) {
-//            studentResponseDtoList.add(toDto(studentResponseDtoList1));
-//        }
-//
-//        return studentResponseDtoList;
-//    }
-//
-//    public static List < Student > toEntityList(List < StudentResponseDto > studentResponseDtoList) {
-//        List < Student > studentList = new ArrayList < > ();
-//
-//        for (StudentResponseDto studentResponseDtoList1: studentResponseDtoList) {
-//            studentList.add(toEntity(studentResponseDtoList1));
-//        }
-//
-//        return studentList;
-//    }
+////    public static StudentRequestDto entityToDtoRequest(Student student) {
+////        StudentRequestDto studentRequestDto = new StudentRequestDto();
+////
+////        studentRequestDto.setFullName(student.getFullName());
+////        studentRequestDto.setEmail(student.getEmail());
+////        //studentRequestDto.setLoans(LoanMapper.toDtoList(student.getLoans()));
+////        return studentRequestDto;
+////    }
+////
+////    public static List < StudentResponseDto > toDtoList(List < Student > student) {
+////        if (student == null) {
+////            return null;
+////        }
+////        List < StudentResponseDto > studentResponseDtoList = new ArrayList < > ();
+////
+////        for (Student studentResponseDtoList1: student) {
+////            studentResponseDtoList.add(toDto(studentResponseDtoList1));
+////        }
+////
+////        return studentResponseDtoList;
+////    }
+////
+////    public static List < Student > toEntityList(List < StudentResponseDto > studentResponseDtoList) {
+////        List < Student > studentList = new ArrayList < > ();
+////
+////        for (StudentResponseDto studentResponseDtoList1: studentResponseDtoList) {
+////            studentList.add(toEntity(studentResponseDtoList1));
+////        }
+////
+////        return studentList;
+////    }
 
 }

@@ -14,7 +14,6 @@ public class BookResponseDto {
     private int stockQuantity;
     private String title;
     private String author;
-    private LoanResponseDto loan;
     private String category;
     private String isbn;
     private String publisher;

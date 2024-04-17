@@ -16,5 +16,5 @@ public class StudentResponseDto {
 
     private String email;
 
-    private LoanResponseDto loan;
+    private List<LoanResponseDto> loans;
 }

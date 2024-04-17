@@ -4,8 +4,10 @@ import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Student;
+import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +25,8 @@ public class StudentService {
         return StudentMapper.toDtoListWithoutLoans(students);
     }
     public StudentResponseDto findById(long id) {
-        return StudentMapper.toDtoWithoutLoans(studentRepository.findById(id).get());
+        return StudentMapper.toDtoWithoutLoans(studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id)));
     }
 
     public StudentResponseDto create(StudentRequestDto studentRequestDto) {
@@ -49,9 +52,8 @@ public class StudentService {
     }
 
     public boolean delete(long id) {
-
-        studentRepository.deleteById(id);
-
+        Student student = StudentMapper.toEntityWithoutLoans(findById(id));
+        studentRepository.delete(student);
         return true;
     }
 

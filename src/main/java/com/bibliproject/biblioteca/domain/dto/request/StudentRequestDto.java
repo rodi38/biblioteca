@@ -14,7 +14,6 @@ import java.util.List;
 public class StudentRequestDto {
 
     private String fullName;
-
     private String email;
 
 }
