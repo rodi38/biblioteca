@@ -1,7 +1,9 @@
 package com.bibliproject.biblioteca.domain.mapper;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.entity.Student;
 
 import java.util.ArrayList;
@@ -64,6 +66,21 @@ public class StudentMapper {
         //student.setLoans(LoanMapper.toEntityList(requestDto.getLoans()));
         return student;
     }
+
+    public static StudentResponseDto addLoanToDto(Student student) {
+        StudentResponseDto studentResponseDto = toDtoWithoutLoans(student);
+        List<LoanResponseDto> loanResponseDtos = new ArrayList<>(LoanMapper.toDtoListWithoutLoans(student.getLoans()));
+        studentResponseDto.setLoans(loanResponseDtos);
+        return studentResponseDto;
+    }
+
+    public static Student addLoanToEntity(StudentResponseDto studentResponseDto) {
+        Student student = toEntityWithoutLoans(studentResponseDto);
+        List<Loan> students = new ArrayList<>(LoanMapper.toEntityListWithoutLoans(studentResponseDto.getLoans()));
+        student.setLoans(students);
+        return student;
+    }
+
 
 //
 //    // with loans

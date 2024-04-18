@@ -29,4 +29,7 @@ public class Book {
     private String publisher;
     private int publishedYear;
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Loan> loans;
 }

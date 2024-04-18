@@ -3,8 +3,6 @@ package com.bibliproject.biblioteca.domain.mapper;
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Loan;
-import com.bibliproject.biblioteca.repository.BookRepository;
-import com.bibliproject.biblioteca.repository.LoanRepository;
 import com.bibliproject.biblioteca.service.BookService;
 import lombok.AllArgsConstructor;
 
@@ -74,6 +72,18 @@ public class LoanMapper {
 
         return loanResponseDtoList;
     }
+
+    public static LoanResponseDto toCompleteResponseDto(Loan loan) {
+        LoanResponseDto loanResponseDto = new LoanResponseDto();
+        loanResponseDto.setLoanDate(loan.getLoanDate());
+        loanResponseDto.setReturnDate(loan.getReturnDate());
+        loanResponseDto.setBook(BookMapper.toDtoResponse(loan.getBook()));
+        loanResponseDto.setStudent(StudentMapper.addLoanToDto(loan.getStudent()));
+        System.out.println( loanResponseDto.getStudent().getLoans().get(0));
+
+        return loanResponseDto;
+    }
+
 
     //with loans
 

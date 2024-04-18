@@ -24,7 +24,7 @@ public class Student {
 
     private String email;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JsonBackReference
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Loan> loans;
 }
