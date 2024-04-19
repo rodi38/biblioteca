@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.domain.mapper;
 
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleBookResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 
 import java.util.ArrayList;
@@ -85,6 +86,17 @@ public class BookMapper {
         book.setPublishedYear(bookRequestDto.getPublishedYear());
         book.setIsbn(bookRequestDto.getIsbn());
 
+    }
+
+    public static SimpleBookResponse toSimpleBookResponse(Book book) {
+        SimpleBookResponse simpleBookResponse = new SimpleBookResponse();
+
+        simpleBookResponse.setId(book.getId());
+        simpleBookResponse.setTitle(book.getTitle());
+        simpleBookResponse.setAuthor(book.getAuthor());
+        simpleBookResponse.setCategory(book.getCategory());
+
+        return simpleBookResponse;
     }
 //
 }

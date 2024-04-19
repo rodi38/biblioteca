@@ -2,7 +2,10 @@ package com.bibliproject.biblioteca.domain.mapper;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponseToStudent;
 import com.bibliproject.biblioteca.domain.entity.Loan;
+import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.service.BookService;
 import lombok.AllArgsConstructor;
 
@@ -82,6 +85,44 @@ public class LoanMapper {
         System.out.println( loanResponseDto.getStudent().getLoans().get(0));
 
         return loanResponseDto;
+    }
+
+
+    public static SimpleLoanResponse toSimpleLoanResponse(Loan loan) {
+
+        SimpleLoanResponse simpleLoanResponse = new SimpleLoanResponse();
+        simpleLoanResponse.setId(loan.getId());
+        simpleLoanResponse.setBook(BookMapper.toSimpleBookResponse(loan.getBook()));
+        simpleLoanResponse.setStudent(StudentMapper.toSimpleStudentResponse(loan.getStudent()));
+        simpleLoanResponse.setLoanDate(loan.getLoanDate());
+        simpleLoanResponse.setReturnDate(loan.getReturnDate());
+
+
+        return simpleLoanResponse;
+    }
+
+    public static SimpleLoanResponseToStudent toSimpleLoanResponseToStudentDto(Loan loan) {
+        SimpleLoanResponseToStudent simpleLoanResponseToStudent = new SimpleLoanResponseToStudent();
+
+        simpleLoanResponseToStudent.setId(loan.getId());
+        simpleLoanResponseToStudent.setBook(BookMapper.toSimpleBookResponse(loan.getBook()));
+        simpleLoanResponseToStudent.setLoanDate(loan.getLoanDate());
+        simpleLoanResponseToStudent.setReturnDate(loan.getReturnDate());
+
+        return simpleLoanResponseToStudent;
+    }
+
+    public static List<SimpleLoanResponseToStudent> toSimpleLoanStudentListResponse(List<Loan> loanList) {
+        if (loanList == null) {
+            return null;
+        }
+        List < SimpleLoanResponseToStudent > simpleLoanListResponseToStudent = new ArrayList < > ();
+
+        for (Loan loan: loanList) {
+            simpleLoanListResponseToStudent.add(toSimpleLoanResponseToStudentDto(loan));
+        }
+
+        return simpleLoanListResponseToStudent;
     }
 
 

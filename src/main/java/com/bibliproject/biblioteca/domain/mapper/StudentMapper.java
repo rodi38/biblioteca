@@ -3,6 +3,7 @@ package com.bibliproject.biblioteca.domain.mapper;
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.entity.Student;
 
@@ -21,6 +22,7 @@ public class StudentMapper {
         return student;
 
     }
+
     public static StudentResponseDto toDtoWithoutLoans(Student student) {
         StudentResponseDto studentResponseDto = new StudentResponseDto();
 
@@ -31,27 +33,27 @@ public class StudentMapper {
         return studentResponseDto;
     }
 
-    public static List < StudentResponseDto > toDtoListWithoutLoans(List < Student > student) {
+    public static List<StudentResponseDto> toDtoListWithoutLoans(List<Student> student) {
         if (student == null) {
             return null;
         }
 
-        List < StudentResponseDto > studentResponseDtoList = new ArrayList < > ();
+        List<StudentResponseDto> studentResponseDtoList = new ArrayList<>();
 
-        for (Student studentResponseDtoList1: student) {
+        for (Student studentResponseDtoList1 : student) {
             studentResponseDtoList.add(toDtoWithoutLoans(studentResponseDtoList1));
         }
 
         return studentResponseDtoList;
     }
 
-    public static List < Student > toEntityListWithoutLoans(List < StudentResponseDto > studentResponseDtoList) {
+    public static List<Student> toEntityListWithoutLoans(List<StudentResponseDto> studentResponseDtoList) {
         if (studentResponseDtoList == null) {
             return null;
         }
-        List < Student > studentList = new ArrayList < > ();
+        List<Student> studentList = new ArrayList<>();
 
-        for (StudentResponseDto studentResponseDtoList1: studentResponseDtoList) {
+        for (StudentResponseDto studentResponseDtoList1 : studentResponseDtoList) {
             studentList.add(toEntityWithoutLoans(studentResponseDtoList1));
         }
 
@@ -79,6 +81,17 @@ public class StudentMapper {
         List<Loan> students = new ArrayList<>(LoanMapper.toEntityListWithoutLoans(studentResponseDto.getLoans()));
         student.setLoans(students);
         return student;
+    }
+
+    public static SimpleStudentResponse toSimpleStudentResponse(Student student) {
+        SimpleStudentResponse simpleStudentResponse = new SimpleStudentResponse();
+
+        simpleStudentResponse.setId(student.getId());
+        simpleStudentResponse.setFullName(student.getFullName());
+        simpleStudentResponse.setEmail(student.getEmail());
+        simpleStudentResponse.setLoans(LoanMapper.toSimpleLoanStudentListResponse(student.getLoans()));
+
+        return simpleStudentResponse;
     }
 
 

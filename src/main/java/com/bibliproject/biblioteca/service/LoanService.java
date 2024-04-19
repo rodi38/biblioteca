@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.entity.Student;
@@ -50,11 +51,10 @@ public class LoanService {
 
     }
 
-    public LoanResponseDto create(LoanRequestDto loanRequestDto) {
+    public SimpleLoanResponse create(LoanRequestDto loanRequestDto) {
 
         Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
         Student student = StudentMapper.toEntityWithoutLoans(studentService.findById(loanRequestDto.getStudentId()));
-        LoanResponseDto response = new LoanResponseDto();
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
         }
@@ -79,8 +79,10 @@ public class LoanService {
 //        loan.getStudent());
         loanRepository.save(loan);
 
+        //SimpleLoanResponse response =
 
-        return LoanMapper.toCompleteResponseDto(loan);
+
+        return LoanMapper.toSimpleLoanResponse(loan);
 
     }
 

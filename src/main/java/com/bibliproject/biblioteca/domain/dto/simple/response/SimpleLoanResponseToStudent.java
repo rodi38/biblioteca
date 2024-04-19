@@ -6,17 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class SimpleStudentResponse {
-
-    private Long id;
-    private String fullName;
-    private String email;
-    private List<SimpleLoanResponseToStudent> loans;
-
+public class SimpleLoanResponseToStudent {
+    private long id;
+    private SimpleBookResponse book;
+    private Date loanDate;
+    private Date returnDate;
 }

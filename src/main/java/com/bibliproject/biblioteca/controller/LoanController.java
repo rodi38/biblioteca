@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.service.LoanService;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity < LoanResponseDto > create(@RequestBody LoanRequestDto loanRequestDto) {
-        LoanResponseDto loanResponseDto = loanService.create(loanRequestDto);
+    public ResponseEntity <SimpleLoanResponse> create(@RequestBody LoanRequestDto loanRequestDto) {
+        SimpleLoanResponse loanResponseDto = loanService.create(loanRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(loanResponseDto);
     }
 
