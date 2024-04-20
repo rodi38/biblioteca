@@ -34,17 +34,24 @@ public class LoanController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity < LoanResponseDto > update(@RequestBody LoanRequestDto loanRequestDto, @PathVariable Long id) {
+    public ResponseEntity < SimpleLoanResponse > update(@RequestBody LoanRequestDto loanRequestDto, @PathVariable Long id) {
 
-        LoanResponseDto loanResponseDto = loanService.update(id, loanRequestDto);
+        SimpleLoanResponse loanResponseDto = loanService.update(id, loanRequestDto);
 
         return ResponseEntity.ok(loanResponseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity < LoanResponseDto > findById(@PathVariable Long id) {
-        LoanResponseDto loanResponseDto = loanService.findById(id);
+    public ResponseEntity < SimpleLoanResponse > findById(@PathVariable Long id) {
+        SimpleLoanResponse loanResponseDto = loanService.findById(id);
         return ResponseEntity.ok(loanResponseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+        Boolean isDeleted = loanService.delete(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
     }
 
 }

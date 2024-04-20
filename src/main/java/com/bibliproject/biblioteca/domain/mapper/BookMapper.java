@@ -92,11 +92,26 @@ public class BookMapper {
         SimpleBookResponse simpleBookResponse = new SimpleBookResponse();
 
         simpleBookResponse.setId(book.getId());
+        simpleBookResponse.setStockQuantity(book.getStockQuantity());
         simpleBookResponse.setTitle(book.getTitle());
         simpleBookResponse.setAuthor(book.getAuthor());
         simpleBookResponse.setCategory(book.getCategory());
 
         return simpleBookResponse;
+    }
+
+    public static Book simpleBookResponseToEntity(SimpleBookResponse simpleBookResponse) {
+        Book book = new Book();
+
+        book.setId(simpleBookResponse.getId());
+        book.setStockQuantity(simpleBookResponse.getStockQuantity());
+        book.setTitle(simpleBookResponse.getTitle());
+        book.setAuthor(simpleBookResponse.getAuthor());
+        book.setPublisher(simpleBookResponse.getCategory());
+//        book.setIsbn(simpleBookResponse.getIsbn());
+//        book.setPublishedYear(simpleBookResponse.getPublishedYear());
+
+        return book;
     }
 //
 }

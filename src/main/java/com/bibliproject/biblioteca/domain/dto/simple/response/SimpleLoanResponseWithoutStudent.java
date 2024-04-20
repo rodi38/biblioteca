@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SimpleLoanResponseToStudent {
+public class SimpleLoanResponseWithoutStudent {
     private long id;
     private SimpleBookResponse book;
     private Date loanDate;

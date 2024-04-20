@@ -46,7 +46,8 @@ public class LoanService {
         return LoanMapper.toSimpleLoanResponseList(loans);
     }
 
-    public LoanResponseDto findById(long id) {        return LoanMapper.toDtoWithoutLoans(loanRepository.findById(id)
+    public SimpleLoanResponse findById(long id) {
+        return LoanMapper.toSimpleLoanResponse(loanRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Loan not found with id: " + id)));
 
     }
@@ -54,7 +55,7 @@ public class LoanService {
     public SimpleLoanResponse create(LoanRequestDto loanRequestDto) {
 
         Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
-        Student student = StudentMapper.toEntityWithoutLoans(studentService.findById(loanRequestDto.getStudentId()));
+        Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
         }
@@ -86,17 +87,18 @@ public class LoanService {
 
     }
 
-    public LoanResponseDto update(long id, LoanRequestDto loanRequestDto) {
-        LoanResponseDto loanResponseDto = findById(id);
-        loanResponseDto.setLoanDate(loanRequestDto.getLoanDate());
-        loanResponseDto.setReturnDate(loanRequestDto.getReturnDate());
-        loanRepository.save(LoanMapper.toEntityWithoutLoans(loanResponseDto));
+    public SimpleLoanResponse update(long id, LoanRequestDto loanRequestDto) {
+        Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
+        loan.setLoanDate(loanRequestDto.getLoanDate());
+        loan.setReturnDate(loanRequestDto.getReturnDate());
 
-        return loanResponseDto;
+        loanRepository.save(loan);
+
+        return LoanMapper.toSimpleLoanResponse(loan);
     }
 
     public boolean delete(long id) {
-        Loan loan = LoanMapper.toEntityWithoutLoans(findById(id));
+        Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         loanRepository.delete(loan);
         return true;
     }

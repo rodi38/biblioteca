@@ -25,12 +25,12 @@ public class StudentService {
         List<Student> students = studentRepository.findAll();
         return StudentMapper.toSimpleStudentResponseList(students);
     }
-    public StudentResponseDto findById(long id) {
-        return StudentMapper.toDtoWithoutLoans(studentRepository.findById(id)
+    public SimpleStudentResponse findById(long id) {
+        return StudentMapper.toSimpleStudentResponse(studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id)));
     }
 
-    public StudentResponseDto create(StudentRequestDto studentRequestDto) {
+    public SimpleStudentResponse create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());
         if (studentRequestDto == null) {
             throw new NullPointerException("livro nulo.");
@@ -39,24 +39,24 @@ public class StudentService {
         //System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
         studentRepository.saveAndFlush(student);
 
-        return StudentMapper.toDtoWithoutLoans(student);
+        return StudentMapper.toSimpleStudentResponse(student);
     }
 
-    public StudentResponseDto update(long id, StudentRequestDto studentRequestDto) {
-        Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
+    public SimpleStudentResponse update(long id, StudentRequestDto studentRequestDto) {
+        Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
 
-        student.setId(id);
-
+        student.setFullName(studentRequestDto.getFullName());
+        student.setEmail(studentRequestDto.getEmail());
         studentRepository.save(student);
 
-        return StudentMapper.toDtoWithoutLoans(student);
+        return StudentMapper.toSimpleStudentResponse(student);
     }
 
 
 
     public boolean delete(long id) {
-        Student student = StudentMapper.toEntityWithoutLoans(findById(id));
-        studentRepository.delete(student);
+        Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
+        studentRepository.deleteById(student.getId());
         return true;
     }
 

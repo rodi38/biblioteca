@@ -21,8 +21,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity < StudentResponseDto > create(@RequestBody StudentRequestDto studentRequestDto) {
-        StudentResponseDto response = studentService.create(studentRequestDto);
+    public ResponseEntity < SimpleStudentResponse > create(@RequestBody StudentRequestDto studentRequestDto) {
+        SimpleStudentResponse response = studentService.create(studentRequestDto);
         return ResponseEntity.ok(response);
     }
 
@@ -33,17 +33,23 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity < StudentResponseDto > update(@RequestBody StudentRequestDto studentRequestDto, @PathVariable Long id) {
+    public ResponseEntity < SimpleStudentResponse > update(@RequestBody StudentRequestDto studentRequestDto, @PathVariable Long id) {
 
-        StudentResponseDto studentResponseDto = studentService.update(id, studentRequestDto);
+        SimpleStudentResponse studentResponseDto = studentService.update(id, studentRequestDto);
 
         return ResponseEntity.ok(studentResponseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity < StudentResponseDto > findById(@PathVariable Long id) {
-        StudentResponseDto studentResponseDto = studentService.findById(id);
+    public ResponseEntity < SimpleStudentResponse > findById(@PathVariable Long id) {
+        SimpleStudentResponse studentResponseDto = studentService.findById(id);
         return ResponseEntity.ok(studentResponseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity < Boolean > delete(@PathVariable Long id) {
+        Boolean isDeleted = studentService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
     }
 
 }
