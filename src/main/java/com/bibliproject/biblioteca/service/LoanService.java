@@ -40,10 +40,10 @@ public class LoanService {
 //        this.studentService = studentService;
 //    }
 
-    public List < LoanResponseDto > findAll() {
+    public List < SimpleLoanResponse > findAll() {
         List < Loan > loans = loanRepository.findAll();
 
-        return LoanMapper.toDtoListWithoutLoans(loans);
+        return LoanMapper.toSimpleLoanResponseList(loans);
     }
 
     public LoanResponseDto findById(long id) {        return LoanMapper.toDtoWithoutLoans(loanRepository.findById(id)

@@ -94,6 +94,22 @@ public class StudentMapper {
         return simpleStudentResponse;
     }
 
+    public static List<SimpleStudentResponse> toSimpleStudentResponseList(List<Student> studentList) {
+        if (studentList == null) {
+            return null;
+        }
+
+        List<SimpleStudentResponse> simpleStudentResponseList = new ArrayList<>();
+
+        for (Student studentResponseDtoList1 : studentList) {
+            simpleStudentResponseList.add(toSimpleStudentResponse(studentResponseDtoList1));
+        }
+
+        return simpleStudentResponseList;
+    }
+
+
+
 
 //
 //    // with loans

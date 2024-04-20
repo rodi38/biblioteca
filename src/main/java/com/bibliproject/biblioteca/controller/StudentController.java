@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
 import com.bibliproject.biblioteca.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity < List < StudentResponseDto >> findAll() {
-        List < StudentResponseDto > students = studentService.findAll();
+    public ResponseEntity < List <SimpleStudentResponse>> findAll() {
+        List < SimpleStudentResponse > students = studentService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(students);
     }
 

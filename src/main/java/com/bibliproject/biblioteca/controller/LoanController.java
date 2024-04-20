@@ -28,8 +28,8 @@ public class LoanController {
     }
 
     @GetMapping
-    public ResponseEntity < List < LoanResponseDto >> findAll() {
-        List < LoanResponseDto > loanResponseDto = loanService.findAll();
+    public ResponseEntity < List < SimpleLoanResponse >> findAll() {
+        List < SimpleLoanResponse > loanResponseDto = loanService.findAll();
         return ResponseEntity.ok(loanResponseDto);
     }
 

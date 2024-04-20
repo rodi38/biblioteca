@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
@@ -20,9 +21,9 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public List < StudentResponseDto > findAll() {
+    public List <SimpleStudentResponse> findAll() {
         List<Student> students = studentRepository.findAll();
-        return StudentMapper.toDtoListWithoutLoans(students);
+        return StudentMapper.toSimpleStudentResponseList(students);
     }
     public StudentResponseDto findById(long id) {
         return StudentMapper.toDtoWithoutLoans(studentRepository.findById(id)

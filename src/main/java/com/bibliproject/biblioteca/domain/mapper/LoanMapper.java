@@ -76,16 +76,8 @@ public class LoanMapper {
         return loanResponseDtoList;
     }
 
-    public static LoanResponseDto toCompleteResponseDto(Loan loan) {
-        LoanResponseDto loanResponseDto = new LoanResponseDto();
-        loanResponseDto.setLoanDate(loan.getLoanDate());
-        loanResponseDto.setReturnDate(loan.getReturnDate());
-        loanResponseDto.setBook(BookMapper.toDtoResponse(loan.getBook()));
-        loanResponseDto.setStudent(StudentMapper.addLoanToDto(loan.getStudent()));
-        System.out.println( loanResponseDto.getStudent().getLoans().get(0));
 
-        return loanResponseDto;
-    }
+
 
 
     public static SimpleLoanResponse toSimpleLoanResponse(Loan loan) {
@@ -99,6 +91,19 @@ public class LoanMapper {
 
 
         return simpleLoanResponse;
+    }
+
+    public static List < SimpleLoanResponse > toSimpleLoanResponseList(List < Loan > loanList) {
+        if (loanList == null) {
+            return null;
+        }
+        List<SimpleLoanResponse> simpleLoanResponses = new ArrayList<>();
+
+        for (Loan loan: loanList) {
+            simpleLoanResponses.add(toSimpleLoanResponse(loan));
+        }
+
+        return simpleLoanResponses;
     }
 
     public static SimpleLoanResponseToStudent toSimpleLoanResponseToStudentDto(Loan loan) {
