@@ -33,13 +33,13 @@ public class LoanController {
         return ResponseEntity.ok(loanResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity < SimpleLoanResponse > update(@RequestBody LoanRequestDto loanRequestDto, @PathVariable Long id) {
-
-        SimpleLoanResponse loanResponseDto = loanService.update(id, loanRequestDto);
-
-        return ResponseEntity.ok(loanResponseDto);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity < SimpleLoanResponse > update(@RequestBody LoanRequestDto loanRequestDto, @PathVariable Long id) {
+//
+//        SimpleLoanResponse loanResponseDto = loanService.update(id, loanRequestDto);
+//
+//        return ResponseEntity.ok(loanResponseDto);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity < SimpleLoanResponse > findById(@PathVariable Long id) {

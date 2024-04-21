@@ -18,4 +18,5 @@ public class SimpleLoanResponse {
     private SimpleStudentResponse student;
     private Date loanDate;
     private Date returnDate;
+    private Date limitDate;
 }

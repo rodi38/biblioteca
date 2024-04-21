@@ -108,10 +108,8 @@ public class BookMapper {
         book.setTitle(simpleBookResponse.getTitle());
         book.setAuthor(simpleBookResponse.getAuthor());
         book.setPublisher(simpleBookResponse.getCategory());
-//        book.setIsbn(simpleBookResponse.getIsbn());
-//        book.setPublishedYear(simpleBookResponse.getPublishedYear());
 
         return book;
     }
-//
+
 }

@@ -14,10 +14,10 @@ import com.bibliproject.biblioteca.repository.LoanRepository;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.mapstruct.factory.Mappers;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,14 +31,6 @@ public class LoanService {
     private final StudentService studentService;
     private final BookService bookService;
 
-//    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, StudentRepository studentRepository,  BookService bookService, StudentService studentService ) {
-//        this.bookService = bookService;
-//        this.loanRepository = loanRepository;
-//        this.studentRepository = studentRepository;
-//        this.bookRepository = bookRepository;
-//        //this.bookRepository = bookRepository;
-//        this.studentService = studentService;
-//    }
 
     public List < SimpleLoanResponse > findAll() {
         List < Loan > loans = loanRepository.findAll();
@@ -56,25 +48,38 @@ public class LoanService {
 
         Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
         Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
+
+        System.out.println("before everything student loans: " + student.getLoans());
+
+
+
         if (book.getStockQuantity() <= 0) {
             throw new IllegalArgumentException("O livro não está no estoque.");
         }
 
         book.setStockQuantity(book.getStockQuantity() - 1);
-        bookRepository.save(book);
-
         Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
+
         loan.setBook(book);
         loan.setStudent(student);
 
 
         if (student.getLoans() != null) {
+            loan.setLimitDate(setLoanLimitData(new Date()));
             student.getLoans().add(loan);
+            if (!canStudentBorrow(student.getLoans())) {
+                throw new IllegalStateException("O estudante tem livros atrasados. Não é possivel fazer nenhum emprestimo enquanto a devolução não for efetuada.");
+            }
             //studentRepository.saveAndFlush(student);
         } else  {
             student.setLoans(List.of(loan));
         }
+
+        System.out.println("after everything student loans: " + student.getLoans());
+        bookRepository.save(book);
         studentRepository.save(student);
+
+
         //bookRepository.save(book);
         System.out.println(student.getId() + " " + student.getFullName() + " " + student.getEmail() + " " + student.getLoans().get(0));
 //        loan.getStudent());
@@ -87,10 +92,9 @@ public class LoanService {
 
     }
 
-    public SimpleLoanResponse update(long id, LoanRequestDto loanRequestDto) {
+    public SimpleLoanResponse update(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
-        loan.setLoanDate(loanRequestDto.getLoanDate());
-        loan.setReturnDate(loanRequestDto.getReturnDate());
+        loan.setReturnDate(new Date());
 
         loanRepository.save(loan);
 
@@ -101,5 +105,17 @@ public class LoanService {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         loanRepository.delete(loan);
         return true;
+    }
+
+    public Date setLoanLimitData(Date loanData) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(loanData);
+        cal.add(Calendar.DATE, 9);
+        return cal.getTime();
+    }
+
+    public boolean canStudentBorrow(List<Loan> loans) {
+        Date currentDate = new Date();
+        return loans.stream().noneMatch(loan -> currentDate.after(loan.getLimitDate()));
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -30,8 +31,16 @@ public class Loan {
     @JsonManagedReference
     private Student student;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date loanDate;
-
+    
+    @Temporal(TemporalType.TIMESTAMP)
     private Date returnDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date limitDate;
+
 
 }

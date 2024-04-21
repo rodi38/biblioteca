@@ -20,4 +20,6 @@ public class LoanResponseDto {
     private Date loanDate;
 
     private Date returnDate;
+    private Date limitDate;
+
 }

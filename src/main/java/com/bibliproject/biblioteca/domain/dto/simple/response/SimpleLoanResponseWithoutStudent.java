@@ -17,4 +17,5 @@ public class SimpleLoanResponseWithoutStudent {
     private SimpleBookResponse book;
     private Date loanDate;
     private Date returnDate;
+    private Date limitDate;
 }

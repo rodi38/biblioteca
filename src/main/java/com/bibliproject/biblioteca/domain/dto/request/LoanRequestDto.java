@@ -15,7 +15,8 @@ public class LoanRequestDto {
 
     private Long bookId;
     private Long studentId;
-    private Date loanDate;
+    //private Date loanDate;
     private Date returnDate;
+    private Date limitDate;
 
 }
