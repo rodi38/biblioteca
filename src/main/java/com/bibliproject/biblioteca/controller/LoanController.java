@@ -1,6 +1,7 @@
 package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Loan;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -22,9 +24,9 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity <SimpleLoanResponse> create(@RequestBody LoanRequestDto loanRequestDto) {
-        SimpleLoanResponse loanResponseDto = loanService.create(loanRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(loanResponseDto);
+    public ResponseEntity <CustomResponse> create(@RequestBody LoanRequestDto loanRequestDto) {
+        CustomResponse response = loanService.create(loanRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping

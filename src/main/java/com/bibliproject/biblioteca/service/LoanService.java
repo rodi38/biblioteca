@@ -1,6 +1,7 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
@@ -44,51 +45,53 @@ public class LoanService {
 
     }
 
-    public SimpleLoanResponse create(LoanRequestDto loanRequestDto) {
+    public CustomResponse create(LoanRequestDto loanRequestDto) {
+        CustomResponse response = new CustomResponse();
 
-        Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
-        Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
+        try {
+            Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
+            Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
 
-        System.out.println("before everything student loans: " + student.getLoans());
-
-
-
-        if (book.getStockQuantity() <= 0) {
-            throw new IllegalArgumentException("O livro não está no estoque.");
-        }
-
-        book.setStockQuantity(book.getStockQuantity() - 1);
-        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
-
-        loan.setBook(book);
-        loan.setStudent(student);
-
-
-        if (student.getLoans() != null) {
-            loan.setLimitDate(setLoanLimitData(new Date()));
-            student.getLoans().add(loan);
-            if (!canStudentBorrow(student.getLoans())) {
-                throw new IllegalStateException("O estudante tem livros atrasados. Não é possivel fazer nenhum emprestimo enquanto a devolução não for efetuada.");
+            if (book.getStockQuantity() <= 0) {
+                throw new IllegalArgumentException();
             }
-            //studentRepository.saveAndFlush(student);
-        } else  {
-            student.setLoans(List.of(loan));
+
+            book.setStockQuantity(book.getStockQuantity() - 1);
+            Loan loan = new Loan();
+
+
+
+            if (student.getLoans() != null) {
+                loan.setLimitDate(setLoanLimitData(new Date()));
+                loan.setBook(book);
+                loan.setStudent(student);
+                student.getLoans().add(loan);
+                if (!canStudentBorrow(student.getLoans())) {
+                    throw new IllegalStateException();
+                }
+            } else  {
+                student.setLoans(List.of(loan));
+            }
+
+            bookRepository.save(book);
+            studentRepository.save(student);
+
+            loanRepository.save(loan);
+            response.setSuccess(true);
+            response.setMessage("Empréstimo efetuado com sucesso.");
+            response.setData(LoanMapper.toSimpleLoanResponse(loan));
+
+        } catch (IllegalArgumentException e) {
+            response.setSuccess(false);
+            response.setMessage("O livro não está no estoque.");
+        } catch (IllegalStateException e ) {
+            response.setSuccess(false);
+            response.setMessage("O estudante tem livros atrasados. Não é possivel fazer nenhum emprestimo enquanto a devolução não for efetuada.");
         }
 
-        System.out.println("after everything student loans: " + student.getLoans());
-        bookRepository.save(book);
-        studentRepository.save(student);
 
 
-        //bookRepository.save(book);
-        System.out.println(student.getId() + " " + student.getFullName() + " " + student.getEmail() + " " + student.getLoans().get(0));
-//        loan.getStudent());
-        loanRepository.save(loan);
-
-        //SimpleLoanResponse response =
-
-
-        return LoanMapper.toSimpleLoanResponse(loan);
+        return response;
 
     }
 
@@ -107,9 +110,9 @@ public class LoanService {
         return true;
     }
 
-    public Date setLoanLimitData(Date loanData) {
+    public Date setLoanLimitData(Date currentDate) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(loanData);
+        cal.setTime(currentDate);
         cal.add(Calendar.DATE, 9);
         return cal.getTime();
     }

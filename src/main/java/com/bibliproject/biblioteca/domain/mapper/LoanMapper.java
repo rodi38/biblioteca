@@ -14,20 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class LoanMapper {
 
-    public static Loan dtoRequestToEntity(LoanRequestDto loanRequestDto) {
-        Loan loan = new Loan();
-
-        loan.setReturnDate(loanRequestDto.getReturnDate());
-        loan.setLimitDate(loanRequestDto.getLimitDate());
-//        loan.setBook(BookMapper.toEntity(bookRepository.findById()));
-//        loan.setStudent(StudentMapper.toEntityWithoutLoans(loanRequestDto.getStudent()));
-        //loan.getBook().(toEntityListWithoutLoans(loanRequestDto.getBook().getLoans()));
-        //loan.getStudent().setLoans(toEntityListWithoutLoans(loanRequestDto.getStudent().getLoan()));
-
-
-        return loan;
-    }
-
 
 
 
@@ -117,6 +103,7 @@ public class LoanMapper {
         simpleLoanResponseToStudent.setBook(BookMapper.toSimpleBookResponse(loan.getBook()));
         simpleLoanResponseToStudent.setLoanDate(loan.getLoanDate());
         simpleLoanResponseToStudent.setReturnDate(loan.getReturnDate());
+        simpleLoanResponseToStudent.setLimitDate(loan.getLimitDate());
 
         return simpleLoanResponseToStudent;
     }
