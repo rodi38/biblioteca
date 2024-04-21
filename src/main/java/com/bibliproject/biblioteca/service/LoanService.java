@@ -1,7 +1,9 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.entity.Student;
@@ -10,73 +12,113 @@ import com.bibliproject.biblioteca.domain.mapper.LoanMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
-import org.springframework.beans.BeanUtils;
+import com.bibliproject.biblioteca.repository.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class LoanService {
     private final LoanRepository loanRepository;
+    private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
+    //private final BookRepository bookRepository;
 
     private final StudentService studentService;
     private final BookService bookService;
 
-    public LoanService(LoanRepository loanRepository, BookService bookService, BookRepository bookRepository, StudentService studentService) {
-        this.bookService = bookService;
-        this.loanRepository = loanRepository;
-        this.bookRepository = bookRepository;
-        this.studentService = studentService;
+
+    public List < SimpleLoanResponse > findAll() {
+        List < Loan > loans = loanRepository.findAll();
+
+        return LoanMapper.toSimpleLoanResponseList(loans);
     }
 
-    public List < LoanResponseDto > findAll() {
-        List < LoanResponseDto > loans = LoanMapper.toDtoList(loanRepository.findAll());
+    public SimpleLoanResponse findById(long id) {
+        return LoanMapper.toSimpleLoanResponse(loanRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Loan not found with id: " + id)));
 
-        System.out.println(loans);
-
-        System.out.println("the end total");
-        return loans;
     }
 
-    public LoanResponseDto findById(long id) {
-        return LoanMapper.toDto(loanRepository.findById(id).get());
-    }
+    public CustomResponse create(LoanRequestDto loanRequestDto) {
+        CustomResponse response = new CustomResponse();
 
-    public LoanResponseDto create(LoanRequestDto loanRequestDto) {
+        try {
+            Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBookId()));
+            Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
 
-        Book book = BookMapper.toEntity(bookService.findById(loanRequestDto.getBook().getId()));
-        Student student = StudentMapper.toEntity(studentService.findById(loanRequestDto.getStudent().getId()));
+            if (book.getStockQuantity() <= 0) {
+                throw new IllegalArgumentException();
+            }
 
-        if (book.getStockQuantity() <= 0) {
-            throw new IllegalArgumentException("O livro não está no estoque.");
+            book.setStockQuantity(book.getStockQuantity() - 1);
+            Loan loan = new Loan();
+
+
+
+            if (student.getLoans() != null) {
+                loan.setLimitDate(setLoanLimitData(new Date()));
+                loan.setBook(book);
+                loan.setStudent(student);
+                student.getLoans().add(loan);
+                if (!canStudentBorrow(student.getLoans())) {
+                    throw new IllegalStateException();
+                }
+            } else  {
+                student.setLoans(List.of(loan));
+            }
+
+            bookRepository.save(book);
+            studentRepository.save(student);
+
+            loanRepository.save(loan);
+            response.setSuccess(true);
+            response.setMessage("Empréstimo efetuado com sucesso.");
+            response.setData(LoanMapper.toSimpleLoanResponse(loan));
+
+        } catch (IllegalArgumentException e) {
+            response.setSuccess(false);
+            response.setMessage("O livro não está no estoque.");
+        } catch (IllegalStateException e ) {
+            response.setSuccess(false);
+            response.setMessage("O estudante tem livros atrasados. Não é possivel fazer nenhum emprestimo enquanto a devolução não for efetuada.");
         }
 
-        book.setStockQuantity(book.getStockQuantity() - 1);
-        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
-        loan.setBook(book);
-        loan.setStudent(student);
 
-        loanRepository.saveAndFlush(loan);
 
-        return LoanMapper.toDto(loan);
+        return response;
 
     }
 
-    public LoanResponseDto update(long id, LoanRequestDto loanRequestDto) {
-        Loan loan = LoanMapper.dtoRequestToEntity(loanRequestDto);
-
-        loan.setId(id);
+    public SimpleLoanResponse update(long id) {
+        Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
+        loan.setReturnDate(new Date());
 
         loanRepository.save(loan);
 
-        return LoanMapper.toDto(loan);
+        return LoanMapper.toSimpleLoanResponse(loan);
     }
 
     public boolean delete(long id) {
-
-        loanRepository.deleteById(id);
-
+        Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
+        loanRepository.delete(loan);
         return true;
+    }
+
+    public Date setLoanLimitData(Date currentDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, 9);
+        return cal.getTime();
+    }
+
+    public boolean canStudentBorrow(List<Loan> loans) {
+        Date currentDate = new Date();
+        return loans.stream().noneMatch(loan -> currentDate.after(loan.getLimitDate()));
     }
 }

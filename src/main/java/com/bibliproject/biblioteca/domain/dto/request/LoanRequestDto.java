@@ -13,11 +13,10 @@ import java.util.Date;
 @ToString
 public class LoanRequestDto {
 
-    private BookResponseDto book;
-
-    private StudentResponseDto student;
-
-    private Date loanDate;
-
+    private Long bookId;
+    private Long studentId;
+    //private Date loanDate;
     private Date returnDate;
+    private Date limitDate;
+
 }

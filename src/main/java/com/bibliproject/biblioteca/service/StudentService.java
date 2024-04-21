@@ -2,9 +2,13 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
+import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Student;
+import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,36 +21,42 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public List < StudentResponseDto > findAll() {
-        return StudentMapper.toDtoList(studentRepository.findAll());
+    public List <SimpleStudentResponse> findAll() {
+        List<Student> students = studentRepository.findAll();
+        return StudentMapper.toSimpleStudentResponseList(students);
     }
-    public StudentResponseDto findById(long id) {
-        return StudentMapper.toDto(studentRepository.findById(id).get());
+    public SimpleStudentResponse findById(long id) {
+        return StudentMapper.toSimpleStudentResponse(studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id)));
     }
 
-    public StudentResponseDto create(StudentRequestDto studentRequestDto) {
+    public SimpleStudentResponse create(StudentRequestDto studentRequestDto) {
         System.out.println(studentRequestDto.getEmail());
+        if (studentRequestDto == null) {
+            throw new NullPointerException("livro nulo.");
+        }
         Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
-        System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
-        studentRepository.save(student);
+        //System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
+        studentRepository.saveAndFlush(student);
 
-        return StudentMapper.toDto(student);
+        return StudentMapper.toSimpleStudentResponse(student);
     }
 
-    public StudentResponseDto update(long id, StudentRequestDto studentRequestDto) {
-        Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
+    public SimpleStudentResponse update(long id, StudentRequestDto studentRequestDto) {
+        Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
 
-        student.setId(id);
-
+        student.setFullName(studentRequestDto.getFullName());
+        student.setEmail(studentRequestDto.getEmail());
         studentRepository.save(student);
 
-        return StudentMapper.toDto(student);
+        return StudentMapper.toSimpleStudentResponse(student);
     }
+
+
 
     public boolean delete(long id) {
-
-        studentRepository.deleteById(id);
-
+        Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
+        studentRepository.deleteById(student.getId());
         return true;
     }
 
