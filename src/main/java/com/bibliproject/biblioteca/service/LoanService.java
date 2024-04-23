@@ -92,13 +92,13 @@ public class LoanService {
 
 
         return response;
-
     }
 
     public SimpleLoanResponse update(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         loan.setReturnDate(new Date());
-
+        loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
+        bookRepository.save(loan.getBook());
         loanRepository.save(loan);
 
         return LoanMapper.toSimpleLoanResponse(loan);
@@ -119,6 +119,6 @@ public class LoanService {
 
     public boolean canStudentBorrow(List<Loan> loans) {
         Date currentDate = new Date();
-        return loans.stream().noneMatch(loan -> currentDate.after(loan.getLimitDate()));
+        return loans.stream().noneMatch(loan -> loan.getReturnDate() == null && currentDate.after(loan.getLimitDate()));
     }
 }

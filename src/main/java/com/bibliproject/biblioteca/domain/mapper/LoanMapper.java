@@ -25,6 +25,7 @@ public class LoanMapper {
         simpleLoanResponse.setStudent(StudentMapper.toSimpleStudentResponse(loan.getStudent()));
         simpleLoanResponse.setLoanDate(loan.getLoanDate());
         simpleLoanResponse.setReturnDate(loan.getReturnDate());
+        simpleLoanResponse.setLimitDate(loan.getLimitDate());
 
 
         return simpleLoanResponse;
