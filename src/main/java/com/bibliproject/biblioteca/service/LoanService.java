@@ -1,7 +1,6 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
@@ -16,7 +15,6 @@ import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
 import com.bibliproject.biblioteca.repository.StudentRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

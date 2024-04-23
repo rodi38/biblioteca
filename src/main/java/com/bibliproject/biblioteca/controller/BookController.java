@@ -1,7 +1,7 @@
 package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,33 +18,34 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    public ResponseEntity < List < BookResponseDto >> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
+    public ResponseEntity <CustomResponse> findAll() {
+        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping
-    public ResponseEntity < BookResponseDto > createBook(@RequestBody BookRequestDto bookRequest) {
-        BookResponseDto bookDTO = bookService.createBook(bookRequest);
-        return ResponseEntity.ok(bookDTO);
+    public ResponseEntity < CustomResponse > createBook(@RequestBody BookRequestDto bookRequestDto) {
+        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.createBook(bookRequestDto));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity < BookResponseDto > updateBook(@RequestBody BookRequestDto bookRequestDto, @PathVariable Long id) {
-        BookResponseDto bookResponseDto = bookService.updateBook(id, bookRequestDto);
-
-        return ResponseEntity.ok(bookResponseDto);
+    public ResponseEntity < CustomResponse > updateBook(@RequestBody BookRequestDto bookRequestDto, @PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Book created", bookService.updateBook(id, bookRequestDto));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity < BookResponseDto > findById(@PathVariable Long id) {
-        BookResponseDto bookResponseDto = bookService.findById(id);
-        return ResponseEntity.ok(bookResponseDto);
+    public ResponseEntity < CustomResponse > findById(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully get the book", bookService.findById(id));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteBook(@PathVariable Long id) {
-        Boolean isDeleted = bookService.deleteBook(id);
-        return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
+    public ResponseEntity<CustomResponse> deleteBook(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully get the book", bookService.delete(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

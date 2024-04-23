@@ -1,11 +1,8 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
-import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Student;
-import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,13 +28,8 @@ public class StudentService {
     }
 
     public SimpleStudentResponse create(StudentRequestDto studentRequestDto) {
-        System.out.println(studentRequestDto.getEmail());
-        if (studentRequestDto == null) {
-            throw new NullPointerException("livro nulo.");
-        }
         Student student = StudentMapper.dtoRequestToEntity(studentRequestDto);
-        //System.out.println(student.getId() + " " + student.getEmail() + " " + student.getLoans());
-        studentRepository.saveAndFlush(student);
+        studentRepository.save(student);
 
         return StudentMapper.toSimpleStudentResponse(student);
     }
