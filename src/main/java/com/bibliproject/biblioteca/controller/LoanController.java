@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/loan")
@@ -24,8 +26,8 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity <CustomResponse> create(@RequestBody LoanRequestDto loanRequestDto) {
-        CustomResponse response = loanService.create(loanRequestDto);
+    public ResponseEntity <Object> create(@RequestBody LoanRequestDto loanRequestDto) {
+        CustomResponse response = new CustomResponse(true, "Loan created successfully.", loanService.create(loanRequestDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
