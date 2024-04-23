@@ -2,7 +2,6 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
-import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
@@ -27,7 +26,6 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
-    //private final BookRepository bookRepository;
 
     private final StudentService studentService;
     private final BookService bookService;

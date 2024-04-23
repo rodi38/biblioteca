@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -21,12 +23,25 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value = 0, message = "O stock precisa ser um numero válido.")
     private int stockQuantity;
+
+    @NotBlank(message = "O titulo é obrigatório")
     private String title;
+
+    @NotBlank(message = "O nome do autor é obrigatório")
     private String author;
+
+    @NotBlank(message = "O nome da categoria é obrigatório")
     private String category;
+
+    @NotBlank(message = "O isbn é obrigatório")
     private String isbn;
+
+    @NotBlank(message = "O nome da editora é obrigatório")
     private String publisher;
+
+    @Min(value = 1900, message = "Ano de publicação de 1900 pra cima.")
     private int publishedYear;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
