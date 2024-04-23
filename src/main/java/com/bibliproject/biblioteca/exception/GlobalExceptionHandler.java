@@ -1,6 +1,7 @@
 package com.bibliproject.biblioteca.exception;
 
 
+import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
@@ -57,4 +58,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(value = {BookAlreadyReturnedException.class})
+    public ResponseEntity<Object> bookAlreadyReturnedExceptionHandling(BookAlreadyReturnedException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

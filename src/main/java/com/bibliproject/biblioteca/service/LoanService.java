@@ -9,6 +9,7 @@ import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.domain.mapper.LoanMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
+import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
 import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
@@ -81,6 +82,9 @@ public class LoanService {
 
     public SimpleLoanResponse update(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
+        if (loan.getReturnDate() != null) {
+            throw new BookAlreadyReturnedException("This book has already been returned");
+        }
         loan.setReturnDate(new Date());
         loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
         bookRepository.save(loan.getBook());

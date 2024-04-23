@@ -21,7 +21,7 @@ public class LoanMapper {
 
         SimpleLoanResponse simpleLoanResponse = new SimpleLoanResponse();
         simpleLoanResponse.setId(loan.getId());
-        simpleLoanResponse.setBook(BookMapper.toSimpleBookResponse(loan.getBook()));
+        simpleLoanResponse.setBook(BookMapper.toDtoResponse(loan.getBook()));
         simpleLoanResponse.setStudent(StudentMapper.toSimpleStudentResponse(loan.getStudent()));
         simpleLoanResponse.setLoanDate(loan.getLoanDate());
         simpleLoanResponse.setReturnDate(loan.getReturnDate());
@@ -38,7 +38,7 @@ public class LoanMapper {
         loan.setLoanDate(simpleLoanResponseDto.getLoanDate());
         loan.setReturnDate(simpleLoanResponseDto.getReturnDate());
         loan.setLimitDate(simpleLoanResponseDto.getLimitDate());
-        loan.setBook(BookMapper.simpleBookResponseToEntity(simpleLoanResponseDto.getBook()));
+        loan.setBook(BookMapper.toEntity(simpleLoanResponseDto.getBook()));
         loan.setStudent(StudentMapper.simpleStudentResponseToEntity(simpleLoanResponseDto.getStudent()));
 
         return loan;
