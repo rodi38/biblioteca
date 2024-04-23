@@ -1,14 +1,12 @@
 package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.response.StudentResponseDto;
-import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
+import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -21,35 +19,33 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity < SimpleStudentResponse > create(@RequestBody StudentRequestDto studentRequestDto) {
-        SimpleStudentResponse response = studentService.create(studentRequestDto);
+    public ResponseEntity < CustomResponse > create(@RequestBody StudentRequestDto studentRequestDto) {
+        CustomResponse response = new CustomResponse(true, "Student has been created",studentService.create(studentRequestDto));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity < List <SimpleStudentResponse>> findAll() {
-        List < SimpleStudentResponse > students = studentService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(students);
+    public ResponseEntity <CustomResponse> findAll() {
+        CustomResponse response = new CustomResponse(true, "Successfully get all students",studentService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity < SimpleStudentResponse > update(@RequestBody StudentRequestDto studentRequestDto, @PathVariable Long id) {
-
-        SimpleStudentResponse studentResponseDto = studentService.update(id, studentRequestDto);
-
-        return ResponseEntity.ok(studentResponseDto);
+    public ResponseEntity < CustomResponse > update(@RequestBody StudentRequestDto studentRequestDto, @PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully updated student", studentService.update(id, studentRequestDto));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity < SimpleStudentResponse > findById(@PathVariable Long id) {
-        SimpleStudentResponse studentResponseDto = studentService.findById(id);
-        return ResponseEntity.ok(studentResponseDto);
+    public ResponseEntity < CustomResponse > findById(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully get student", studentService.findById(id));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity < Boolean > delete(@PathVariable Long id) {
-        Boolean isDeleted = studentService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
+    public ResponseEntity < CustomResponse > delete(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully get student", studentService.delete(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

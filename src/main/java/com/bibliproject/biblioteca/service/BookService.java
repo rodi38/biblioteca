@@ -4,12 +4,12 @@ import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
+import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -41,7 +41,7 @@ public class BookService {
         return BookMapper.toDtoResponse(savedBook);
     }
 
-    public boolean deleteBook(long id) {
+    public boolean delete(long id) {
         Book book = BookMapper.toEntity(findById(id));
         bookRepository.delete(book);
         return true;
@@ -49,7 +49,7 @@ public class BookService {
 
     public BookResponseDto findById(Long id) {
         return BookMapper.toDtoResponse(bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id)));
+                .orElseThrow(() -> new BookNotFoundException(id)));
     }
 
 }

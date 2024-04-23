@@ -31,6 +31,7 @@ public class Loan {
     @JsonManagedReference
     private Student student;
 
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

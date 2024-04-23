@@ -2,15 +2,12 @@ package com.bibliproject.biblioteca.controller;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
-import com.bibliproject.biblioteca.domain.dto.response.LoanResponseDto;
-import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
-import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.service.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+
 import java.util.List;
 
 @RestController
@@ -24,36 +21,33 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity <CustomResponse> create(@RequestBody LoanRequestDto loanRequestDto) {
-        CustomResponse response = loanService.create(loanRequestDto);
+    public ResponseEntity <Object> create(@RequestBody LoanRequestDto loanRequestDto) {
+        CustomResponse response = new CustomResponse(true, "Loan created successfully.", loanService.create(loanRequestDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity < List < SimpleLoanResponse >> findAll() {
-        List < SimpleLoanResponse > loanResponseDto = loanService.findAll();
-        return ResponseEntity.ok(loanResponseDto);
+    public ResponseEntity <CustomResponse> findAll() {
+        CustomResponse response = new CustomResponse(true, "Successfully get all loans.", loanService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity < SimpleLoanResponse > update(@RequestBody LoanRequestDto loanRequestDto, @PathVariable Long id) {
-//
-//        SimpleLoanResponse loanResponseDto = loanService.update(id, loanRequestDto);
-//
-//        return ResponseEntity.ok(loanResponseDto);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity < CustomResponse > update(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully returned the book.", loanService.update(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity < SimpleLoanResponse > findById(@PathVariable Long id) {
-        SimpleLoanResponse loanResponseDto = loanService.findById(id);
-        return ResponseEntity.ok(loanResponseDto);
+    public ResponseEntity < CustomResponse > findById(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "Successfully the loan with id: " + id, loanService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
-        Boolean isDeleted = loanService.delete(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(isDeleted);
+    public ResponseEntity<CustomResponse> delete(@PathVariable Long id) {
+        CustomResponse response = new CustomResponse(true, "The loan has been successfully deleted.", loanService.delete(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

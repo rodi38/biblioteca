@@ -13,6 +13,6 @@ import lombok.Setter;
 public class CustomResponse {
     private boolean success;
     private String message;
-    private SimpleLoanResponse data;
+    private Object data;
 
 }
