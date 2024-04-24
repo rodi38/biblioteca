@@ -1,7 +1,8 @@
-package com.bibliproject.biblioteca.domain.dto.simple.response;
+package com.bibliproject.biblioteca.domain.dto.simple.response.loan;
 
 
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.simple.response.student.SimpleStudentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

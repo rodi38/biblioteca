@@ -1,6 +1,5 @@
 package com.bibliproject.biblioteca.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +13,6 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "loans")
-@ToString
 public class Loan {
 
     @Id
