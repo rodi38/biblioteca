@@ -2,7 +2,7 @@ package com.bibliproject.biblioteca.domain.mapper;
 
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
-import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleBookResponse;
+import com.bibliproject.biblioteca.domain.dto.simple.response.book.SimpleBookResponse;
 import com.bibliproject.biblioteca.domain.entity.Book;
 
 import java.util.ArrayList;

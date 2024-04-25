@@ -1,7 +1,8 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
-import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleLoanResponse;
+import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponse;
+import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponseStudent;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.entity.Student;
@@ -33,10 +34,9 @@ public class LoanService {
     private final BookService bookService;
 
 
-    public List<SimpleLoanResponse> findAll() {
+    public List<SimpleLoanResponseStudent> findAll() {
         List<Loan> loans = loanRepository.findAll();
-
-        return LoanMapper.toSimpleLoanResponseList(loans);
+        return LoanMapper.toSimpleLoanResponseStudentList(loans);
     }
 
     public SimpleLoanResponse findById(long id) {
@@ -52,7 +52,6 @@ public class LoanService {
         if (book.getStockQuantity() <= 0) {
             throw new BookOutOfStockException();
         }
-
         book.setStockQuantity(book.getStockQuantity() - 1);
         Loan loan = new Loan();
 
@@ -69,9 +68,11 @@ public class LoanService {
             student.setLoans(List.of(loan));
         }
 
+        student.setBarrowedBooksCount(student.getBarrowedBooksCount() + 1);
+        loan.setBook(book);
+        loan.setStudent(student);
         bookRepository.save(book);
         studentRepository.save(student);
-
         loanRepository.save(loan);
 
 
@@ -85,6 +86,8 @@ public class LoanService {
         }
         loan.setReturnDate(new Date());
         loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
+        loan.getStudent().setBarrowedBooksCount(loan.getStudent().getBarrowedBooksCount() - 1);
+        studentRepository.save(loan.getStudent());
         bookRepository.save(loan.getBook());
         loanRepository.save(loan);
 

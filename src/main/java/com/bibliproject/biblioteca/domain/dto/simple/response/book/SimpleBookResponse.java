@@ -1,5 +1,4 @@
-package com.bibliproject.biblioteca.domain.dto.simple.response;
-
+package com.bibliproject.biblioteca.domain.dto.simple.response.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

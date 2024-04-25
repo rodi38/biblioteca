@@ -1,4 +1,7 @@
-package com.bibliproject.biblioteca.domain.dto.simple.response;
+package com.bibliproject.biblioteca.domain.dto.simple.response.student;
+
+
+import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponseWithoutStudent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SimpleStudentResponseWithoutLoans {
+public class SimpleStudentResponse {
 
     private Long id;
     private String fullName;
     private String email;
+    private List<SimpleLoanResponseWithoutStudent> loans;
     private int barrowedBooksCount;
 
 }

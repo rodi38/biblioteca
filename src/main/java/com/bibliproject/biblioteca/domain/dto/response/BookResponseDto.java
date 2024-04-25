@@ -2,7 +2,6 @@ package com.bibliproject.biblioteca.domain.dto.response;
 
 import lombok.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

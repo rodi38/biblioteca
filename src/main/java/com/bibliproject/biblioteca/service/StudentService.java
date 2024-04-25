@@ -1,7 +1,7 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
-import com.bibliproject.biblioteca.domain.dto.simple.response.SimpleStudentResponse;
+import com.bibliproject.biblioteca.domain.dto.simple.response.student.SimpleStudentResponse;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.repository.StudentRepository;
