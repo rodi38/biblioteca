@@ -87,6 +87,7 @@ public class LoanService {
         loan.setReturnDate(new Date());
         loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
         loan.getStudent().setBarrowedBooksCount(loan.getStudent().getBarrowedBooksCount() - 1);
+        loan.setIsDeleted(true);
         studentRepository.save(loan.getStudent());
         bookRepository.save(loan.getBook());
         loanRepository.save(loan);

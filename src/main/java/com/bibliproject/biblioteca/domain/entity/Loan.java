@@ -1,5 +1,6 @@
 package com.bibliproject.biblioteca.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,14 +33,20 @@ public class Loan {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date loanDate;
-    
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date returnDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     private Date limitDate;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
 
 }

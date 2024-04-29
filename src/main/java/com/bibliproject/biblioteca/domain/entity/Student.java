@@ -33,4 +33,7 @@ public class Student {
     @Max(value = 12, message = "The max number of barrowed books is 12.")
     private int barrowedBooksCount;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
 }
