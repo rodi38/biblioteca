@@ -44,4 +44,7 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Loan> loans;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 }
