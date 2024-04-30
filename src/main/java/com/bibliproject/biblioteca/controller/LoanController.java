@@ -39,7 +39,7 @@ public class LoanController {
 
     @GetMapping("/{id}")
     public ResponseEntity < CustomResponse > findById(@PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "Successfully the loan with id: " + id, loanService.findById(id));
+        CustomResponse response = new CustomResponse(true, "Successfully get the loan", loanService.findById(id));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

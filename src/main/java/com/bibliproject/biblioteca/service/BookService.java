@@ -41,10 +41,10 @@ public class BookService {
         return BookMapper.toDtoResponse(savedBook);
     }
 
-    public boolean delete(long id) {
+    public BookResponseDto delete(long id) {
         Book book = BookMapper.toEntity(findById(id));
         bookRepository.delete(book);
-        return true;
+        return BookMapper.toDtoResponse(book);
     }
 
     public BookResponseDto findById(Long id) {
