@@ -20,7 +20,7 @@ Baixe instale o banco de dados Postgresql ou tenha uma imagem do postgresql no d
 Crie um banco de dados com o nome <b>library</b> ou de nome preferido(neste caso terá de mudar as configurações do application.yaml) com o seguinte comando no terminal:
 <code>createdb -U usuarioDoBanco nomeDoBanco</code>
 
-Ps: Nome de usuário e senha são escolhidos no momento da instalação, por padrão o usuário normalmente é postgres, fique atento no momento de instalação!
+PS: Nome de usuário e senha são escolhidos no momento da instalação, por padrão o usuário normalmente é postgres, fique atento no momento de instalação!
 
 PS: Para rodar o comando anterior é necessário adicionar o caminho de instalação do Postgresql na variavel path do sistema!
 
