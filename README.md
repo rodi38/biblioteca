@@ -127,3 +127,24 @@ em caso de sucesso receberá um json contendo as informações do livro atualiza
     }
 }
 ```
+
+deleteBook:  http://localhost:8080/book/6
+
+em caso de sucesso receberá um json contendo as informações do livro deletado: 
+
+```json
+{
+    "success": true,
+    "message": "Successfully deleted the book",
+    "data": {
+        "id": 7,
+        "stockQuantity": 11,
+        "title": "wilson da nave",
+        "author": "wilson evangelista",
+        "category": "scfi",
+        "isbn": "978-3-16-148410-0",
+        "publisher": "Microsoft",
+        "publishedYear": 2025
+    }
+}
+```
