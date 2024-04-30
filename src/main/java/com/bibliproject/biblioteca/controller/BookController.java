@@ -23,14 +23,14 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity < CustomResponse > createBook(@RequestBody BookRequestDto bookRequestDto) {
-        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.createBook(bookRequestDto));
+        CustomResponse response = new CustomResponse(true, "Successfully created the book", bookService.createBook(bookRequestDto));
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
 
     @PutMapping("/{id}")
     public ResponseEntity < CustomResponse > updateBook(@RequestBody BookRequestDto bookRequestDto, @PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "Book created", bookService.updateBook(id, bookRequestDto));
+        CustomResponse response = new CustomResponse(true, "Book has been updated", bookService.updateBook(id, bookRequestDto));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -42,7 +42,7 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomResponse> deleteBook(@PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "Successfully get the book", bookService.delete(id));
+        CustomResponse response = new CustomResponse(true, "Successfully deleted the book", bookService.delete(id));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

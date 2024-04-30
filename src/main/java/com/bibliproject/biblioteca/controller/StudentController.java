@@ -43,7 +43,7 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity < CustomResponse > delete(@PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "Successfully get student", studentService.delete(id));
+        CustomResponse response = new CustomResponse(true, "Student has been deleted", studentService.delete(id));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
