@@ -50,6 +50,80 @@ Tendo feito todos procedimentos anteriores é hora de rodar o projeto, no Intell
 Se fez todos passos corretamente o projeto rodará sem nenhum erro, parabéns.
 
 
-<h2>Documentação</h2>
+<h2>Rotas</h2>
 
+<h3>Book</h3>
 
+getAllBooks: http://localhost:8080/book
+
+em caso de sucesso receberá um json contendo todos livros cadastrados: 
+```json
+{
+    "success": true,
+    "message": "Successfully get all books",
+    "data": [
+        {
+            "id": 6,
+            "stockQuantity": 1333,
+            "title": "livro 2",
+            "author": "rodrigo",
+            "category": "goat",
+            "isbn": "1231231",
+            "publisher": "da boa",
+            "publishedYear": 1998
+        },
+        {
+            "id": 3,
+            "stockQuantity": 11,
+            "title": "wilson da nave",
+            "author": "wilson evangelista",
+            "category": "scfi",
+            "isbn": "978-3-16-148410-0",
+            "publisher": "Microsoft",
+            "publishedYear": 2025
+        }
+    ]
+}
+```
+
+getBookById: http://localhost:8080/book/6
+
+em caso de sucesso receberá um json contendo o livro com o id mencionado: 
+
+```json
+{
+    "success": true,
+    "message": "Successfully get the book",
+    "data": {
+        "id": 6,
+        "stockQuantity": 1333,
+        "title": "livro 2",
+        "author": "rodrigo",
+        "category": "goat",
+        "isbn": "1231231",
+        "publisher": "da boa",
+        "publishedYear": 1998
+    }
+}
+```
+
+updateBook:  http://localhost:8080/book/6
+
+em caso de sucesso receberá um json contendo as informações do livro atualizado: 
+
+```json
+{
+    "success": true,
+    "message": "Book has been updated",
+    "data": {
+        "id": 6,
+        "stockQuantity": 29,
+        "title": "asdsd",
+        "author": "Rodrigo Doe",
+        "category": "atumalaca",
+        "isbn": "978-3-16-148410-0",
+        "publisher": "sadasd XYZ",
+        "publishedYear": 2021
+    }
+}
+```
