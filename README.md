@@ -45,12 +45,11 @@ Troque também o nome do banco caso o nome do seu banco não seja library: <br> 
 
 Antes de rodar o projeto será necessário carregar todas dependências, no intellij basta seguir estes passos: <br><code>Project > Biblioteca > click direito > Maven > Reload project</code> <br>
 
-Tendo feito todos projetos anteriores é hora de rodar o projeto, no IntelliJ IDEA basta apertar <code>shift + F10 </code>
+Tendo feito todos procedimentos anteriores é hora de rodar o projeto, no IntelliJ IDEA basta apertar <code>shift + F10 </code>
 
 Se fez todos passos corretamente o projeto rodará sem nenhum erro, parabéns.
 
 
-
-
 <h2>Documentação</h2>
+
 
