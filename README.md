@@ -41,4 +41,16 @@ No arquivo <code>application.yaml</code> localizado em: <code>src/main/resources
 
 Troque também o nome do banco caso o nome do seu banco não seja library: <br> <code>url: jdbc:postgresql://localhost:5432/NomeDoSeuBanco</code>
 
+<h4>Passo 4</h4>
+
+Antes de rodar o projeto será necessário carregar todas dependências, no intellij basta seguir estes passos: <br><code>Project > Biblioteca > click direito > Maven > Reload project</code> <br>
+
+Tendo feito todos projetos anteriores é hora de rodar o projeto, no IntelliJ IDEA basta apertar <code>shift + F10 </code>
+
+Se fez todos passos corretamente o projeto rodará sem nenhum erro, parabéns.
+
+
+
+
+<h2>Documentação</h2>
 
