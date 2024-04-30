@@ -128,7 +128,7 @@ em caso de sucesso receberá um json contendo as informações do livro atualiza
 }
 ```
 
-deleteBook:  http://localhost:8080/book/6
+deleteBook:  http://localhost:8080/book/7
 
 em caso de sucesso receberá um json contendo as informações do livro deletado: 
 
