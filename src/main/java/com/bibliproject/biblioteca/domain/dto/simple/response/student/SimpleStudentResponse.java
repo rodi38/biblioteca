@@ -19,6 +19,6 @@ public class SimpleStudentResponse {
     private String fullName;
     private String email;
     private List<SimpleLoanResponseWithoutStudent> loans;
-    private int barrowedBooksCount;
+    private int borrowedBooksCount;
 
 }

@@ -9,6 +9,7 @@ import com.bibliproject.biblioteca.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,10 +42,13 @@ public class BookService {
         return BookMapper.toDtoResponse(savedBook);
     }
 
-    public BookResponseDto delete(long id) {
+    public boolean delete(long id) {
         Book book = BookMapper.toEntity(findById(id));
-        bookRepository.delete(book);
-        return BookMapper.toDtoResponse(book);
+        book.setDeleted(true);
+        book.setDeletedAt(LocalDateTime.now());
+
+        bookRepository.save(book);
+        return true;
     }
 
     public BookResponseDto findById(Long id) {

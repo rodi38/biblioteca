@@ -3,6 +3,7 @@ package com.bibliproject.biblioteca.domain.dto.request;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class LoanRequestDto {
 
     private Long bookId;
     private Long studentId;
-    private Date returnDate;
-    private Date limitDate;
+    private LocalDateTime returnDate;
+    private LocalDateTime limitDate;
 
 }

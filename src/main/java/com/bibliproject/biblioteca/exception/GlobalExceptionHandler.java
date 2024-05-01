@@ -6,6 +6,7 @@ import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
 import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
+import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.exception.student.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {BookAlreadyReturnedException.class})
     public ResponseEntity<Object> bookAlreadyReturnedExceptionHandling(BookAlreadyReturnedException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {StudentHaveDebtException.class})
+    public ResponseEntity<Object> studentHaveDebtExceptionHandling(StudentHaveDebtException e) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
         response.put("message", e.getMessage());

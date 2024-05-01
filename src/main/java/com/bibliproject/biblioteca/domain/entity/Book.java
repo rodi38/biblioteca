@@ -1,11 +1,14 @@
 package com.bibliproject.biblioteca.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -45,6 +48,15 @@ public class Book {
     @JsonBackReference
     private List<Loan> loans;
 
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    public LocalDateTime createdAt;
+
+    public LocalDateTime updatedAt;
+
+    public LocalDateTime deletedAt;
+
     @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+    private boolean isDeleted;
 }

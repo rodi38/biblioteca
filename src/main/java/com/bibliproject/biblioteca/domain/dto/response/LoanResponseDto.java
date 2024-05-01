@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.domain.dto.response;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -17,9 +18,9 @@ public class LoanResponseDto {
 
     private StudentResponseDto student;
 
-    private Date loanDate;
+    private LocalDateTime loanDate;
 
-    private Date returnDate;
-    private Date limitDate;
+    private LocalDateTime returnDate;
+    private LocalDateTime limitDate;
 
 }

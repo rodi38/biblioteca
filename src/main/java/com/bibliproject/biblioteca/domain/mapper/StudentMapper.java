@@ -26,7 +26,7 @@ public class StudentMapper {
         simpleStudentResponse.setFullName(student.getFullName());
         simpleStudentResponse.setEmail(student.getEmail());
         simpleStudentResponse.setLoans(LoanMapper.toSimpleLoanResponseWithoutStudentDtoList(student.getLoans()));
-        simpleStudentResponse.setBarrowedBooksCount(student.getBarrowedBooksCount());
+        simpleStudentResponse.setBorrowedBooksCount(student.getBorrowedBooksCount());
 
         return simpleStudentResponse;
     }
@@ -38,7 +38,7 @@ public class StudentMapper {
         student.setFullName(studentResponse.getFullName());
         student.setEmail(studentResponse.getEmail());
         student.setLoans(LoanMapper.simpleLoanResponseWithoutStudentListToEntityList(studentResponse.getLoans()));
-        student.setBarrowedBooksCount(studentResponse.getBarrowedBooksCount());
+        student.setBorrowedBooksCount(studentResponse.getBorrowedBooksCount());
 
         return student;
     }
@@ -78,7 +78,7 @@ public class StudentMapper {
         simpleStudentResponseWithoutLoans.setId(student.getId());
         simpleStudentResponseWithoutLoans.setEmail(student.getEmail());
         simpleStudentResponseWithoutLoans.setFullName(student.getFullName());
-        simpleStudentResponseWithoutLoans.setBarrowedBooksCount(student.getBarrowedBooksCount());
+        simpleStudentResponseWithoutLoans.setBorrowedBooksCount(student.getBorrowedBooksCount());
 
         return simpleStudentResponseWithoutLoans;
     }
