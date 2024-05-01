@@ -13,12 +13,16 @@ import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
 import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
+import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +61,7 @@ public class LoanService {
 
 
         if (student.getLoans() != null) {
-            loan.setLimitDate(setLoanLimitData(new Date()));
+            loan.setLimitDate(setLoanLimitData(LocalDateTime.now()));
             loan.setBook(book);
             loan.setStudent(student);
             student.getLoans().add(loan);
@@ -68,7 +72,7 @@ public class LoanService {
             student.setLoans(List.of(loan));
         }
 
-        student.setBarrowedBooksCount(student.getBarrowedBooksCount() + 1);
+        student.setBorrowedBooksCount(student.getBorrowedBooksCount() + 1);
         loan.setBook(book);
         loan.setStudent(student);
         bookRepository.save(book);
@@ -84,10 +88,11 @@ public class LoanService {
         if (loan.getReturnDate() != null) {
             throw new BookAlreadyReturnedException("This book has already been returned");
         }
-        loan.setReturnDate(new Date());
+        loan.setReturnDate(LocalDateTime.now());
         loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
-        loan.getStudent().setBarrowedBooksCount(loan.getStudent().getBarrowedBooksCount() - 1);
-        loan.setIsDeleted(true);
+        loan.getStudent().setBorrowedBooksCount(loan.getStudent().getBorrowedBooksCount() - 1);
+        loan.getBook().setUpdatedAt(LocalDateTime.now());
+        loan.getStudent().setUpdatedAt(LocalDateTime.now());
         studentRepository.save(loan.getStudent());
         bookRepository.save(loan.getBook());
         loanRepository.save(loan);
@@ -97,19 +102,22 @@ public class LoanService {
 
     public boolean delete(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
-        loanRepository.delete(loan);
+        if (loan.getReturnDate() == null){
+            throw new StudentHaveDebtException("Student have barrowed books, return them to delete.");
+        }
+        loan.setDeleted(true);
+        loan.setDeletedAt(LocalDateTime.now());
+        loanRepository.save(loan);
+        //loanRepository.delete(loan);
         return true;
     }
 
-    public Date setLoanLimitData(Date currentDate) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        cal.add(Calendar.DATE, 9);
-        return cal.getTime();
+    public LocalDateTime setLoanLimitData(LocalDateTime currentDateTime) {
+        return currentDateTime.plusDays(9);
     }
 
     public boolean canStudentBorrow(List<Loan> loans) {
-        Date currentDate = new Date();
-        return loans.stream().noneMatch(loan -> loan.getReturnDate() == null && currentDate.after(loan.getLimitDate()));
+        LocalDateTime currentDate = LocalDateTime.now();
+        return loans.stream().noneMatch(loan -> loan.getReturnDate() == null && currentDate.isAfter(loan.getLimitDate()));
     }
 }

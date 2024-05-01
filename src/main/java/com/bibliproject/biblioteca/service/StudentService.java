@@ -4,10 +4,12 @@ import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.student.SimpleStudentResponse;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
+import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,9 +38,10 @@ public class StudentService {
 
     public SimpleStudentResponse update(long id, StudentRequestDto studentRequestDto) {
         Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
-
         student.setFullName(studentRequestDto.getFullName());
         student.setEmail(studentRequestDto.getEmail());
+
+        student.setUpdatedAt(LocalDateTime.now());
         studentRepository.save(student);
 
         return StudentMapper.toSimpleStudentResponse(student);
@@ -48,7 +51,13 @@ public class StudentService {
 
     public boolean delete(long id) {
         Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
-        studentRepository.deleteById(student.getId());
+        if (student.getBorrowedBooksCount() >0){
+            throw new StudentHaveDebtException("Student have borrowed books, return them to delete.");
+        }
+        student.setDeleted(true);
+        student.setDeletedAt(LocalDateTime.now());
+        studentRepository.save(student);
+        //studentRepository.deleteById(student.getId());
         return true;
     }
 

@@ -13,6 +13,6 @@ public class SimpleStudentResponseWithoutLoans {
     private Long id;
     private String fullName;
     private String email;
-    private int barrowedBooksCount;
+    private int borrowedBooksCount;
 
 }
