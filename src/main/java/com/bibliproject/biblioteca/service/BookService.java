@@ -6,7 +6,8 @@ import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.repository.BookRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +21,14 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List < BookResponseDto > findAll() {
-        List < Book > books = bookRepository.findAll();
-        return BookMapper. toDtoList(books);
+    public Page<BookResponseDto > findAll(Pageable pageable) {
+        Page<Book> books = bookRepository.findAllNotDeleted(pageable);
+        return books.map(BookMapper::toDtoResponse);
+    }
+
+    public BookResponseDto findById(Long id) {
+        return BookMapper.toDtoResponse(bookRepository.findByIdAndNotDeleted(id)
+                .orElseThrow(() -> new BookNotFoundException(id)));
     }
 
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
@@ -38,22 +44,19 @@ public class BookService {
     public BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto) {
         Book book = BookMapper.toEntity(findById(id));
         BookMapper.bookUpdate(book, bookRequestDto);
+        book.setUpdatedAt(LocalDateTime.now());
         Book savedBook = bookRepository.save(book);
         return BookMapper.toDtoResponse(savedBook);
     }
 
-    public boolean delete(long id) {
+    public void delete(long id) {
         Book book = BookMapper.toEntity(findById(id));
         book.setDeleted(true);
         book.setDeletedAt(LocalDateTime.now());
-
         bookRepository.save(book);
-        return true;
+
     }
 
-    public BookResponseDto findById(Long id) {
-        return BookMapper.toDtoResponse(bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(id)));
-    }
+
 
 }

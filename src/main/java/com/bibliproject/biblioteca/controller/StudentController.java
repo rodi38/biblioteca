@@ -3,6 +3,8 @@ package com.bibliproject.biblioteca.controller;
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.service.StudentService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,10 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity <CustomResponse> findAll() {
-        CustomResponse response = new CustomResponse(true, "Successfully get all students",studentService.findAll());
+    public ResponseEntity <CustomResponse> findAll(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        CustomResponse response = new CustomResponse(true, "Successfully get all students",studentService.findAll(pageable));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -42,9 +46,9 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity < CustomResponse > delete(@PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "Student has been deleted", studentService.delete(id));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    public ResponseEntity < Void > delete(@PathVariable Long id) {
+        studentService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
