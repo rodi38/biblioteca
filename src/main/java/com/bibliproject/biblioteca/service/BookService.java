@@ -21,8 +21,13 @@ public class BookService {
     }
 
     public List < BookResponseDto > findAll() {
-        List < Book > books = bookRepository.findAll();
+        List < Book > books = bookRepository.findAllNotDeleted();
         return BookMapper. toDtoList(books);
+    }
+
+    public BookResponseDto findById(Long id) {
+        return BookMapper.toDtoResponse(bookRepository.findByIdAndNotDeleted(id)
+                .orElseThrow(() -> new BookNotFoundException(id)));
     }
 
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
@@ -38,22 +43,19 @@ public class BookService {
     public BookResponseDto updateBook(Long id, BookRequestDto bookRequestDto) {
         Book book = BookMapper.toEntity(findById(id));
         BookMapper.bookUpdate(book, bookRequestDto);
+        book.setUpdatedAt(LocalDateTime.now());
         Book savedBook = bookRepository.save(book);
         return BookMapper.toDtoResponse(savedBook);
     }
 
-    public boolean delete(long id) {
+    public void delete(long id) {
         Book book = BookMapper.toEntity(findById(id));
         book.setDeleted(true);
         book.setDeletedAt(LocalDateTime.now());
-
         bookRepository.save(book);
-        return true;
+
     }
 
-    public BookResponseDto findById(Long id) {
-        return BookMapper.toDtoResponse(bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(id)));
-    }
+
 
 }

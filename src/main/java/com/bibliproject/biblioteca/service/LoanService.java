@@ -39,12 +39,12 @@ public class LoanService {
 
 
     public List<SimpleLoanResponseStudent> findAll() {
-        List<Loan> loans = loanRepository.findAll();
+        List<Loan> loans = loanRepository.findAllNotDeleted();
         return LoanMapper.toSimpleLoanResponseStudentList(loans);
     }
 
     public SimpleLoanResponse findById(long id) {
-        return LoanMapper.toSimpleLoanResponse(loanRepository.findById(id)
+        return LoanMapper.toSimpleLoanResponse(loanRepository.findByIdAndNotDeleted(id)
                 .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + id)));
 
     }
@@ -79,7 +79,6 @@ public class LoanService {
         studentRepository.save(student);
         loanRepository.save(loan);
 
-
         return LoanMapper.toSimpleLoanResponse(loan);
     }
 
@@ -100,7 +99,7 @@ public class LoanService {
         return LoanMapper.toSimpleLoanResponse(loan);
     }
 
-    public boolean delete(long id) {
+    public void delete(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         if (loan.getReturnDate() == null){
             throw new StudentHaveDebtException("Student have barrowed books, return them to delete.");
@@ -108,8 +107,6 @@ public class LoanService {
         loan.setDeleted(true);
         loan.setDeletedAt(LocalDateTime.now());
         loanRepository.save(loan);
-        //loanRepository.delete(loan);
-        return true;
     }
 
     public LocalDateTime setLoanLimitData(LocalDateTime currentDateTime) {

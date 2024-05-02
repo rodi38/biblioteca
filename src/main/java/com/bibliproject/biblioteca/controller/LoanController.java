@@ -44,9 +44,9 @@ public class LoanController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CustomResponse> delete(@PathVariable Long id) {
-        CustomResponse response = new CustomResponse(true, "The loan has been successfully deleted.", loanService.delete(id));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        loanService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
