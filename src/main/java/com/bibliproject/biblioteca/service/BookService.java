@@ -6,7 +6,8 @@ import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.repository.BookRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +21,9 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List < BookResponseDto > findAll() {
-        List < Book > books = bookRepository.findAllNotDeleted();
-        return BookMapper. toDtoList(books);
+    public Page<BookResponseDto > findAll(Pageable pageable) {
+        Page<Book> books = bookRepository.findAllNotDeleted(pageable);
+        return books.map(BookMapper::toDtoResponse);
     }
 
     public BookResponseDto findById(Long id) {

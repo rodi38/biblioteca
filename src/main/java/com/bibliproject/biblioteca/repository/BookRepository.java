@@ -1,7 +1,8 @@
 package com.bibliproject.biblioteca.repository;
 
 import com.bibliproject.biblioteca.domain.entity.Book;
-import com.bibliproject.biblioteca.domain.entity.Loan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,10 +14,10 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT l FROM Book l WHERE l.isDeleted = false")
-    List<Book> findAllNotDeleted();
+    Page<Book> findAllNotDeleted(Pageable pageable);
 
     @Query("SELECT l FROM Book l WHERE l.isDeleted = true")
-    List<Book> findAllDeleted();
+    Page<Book> findAllDeleted(Pageable pageable);
 
     @Query("SELECT l FROM Book l WHERE l.id = :id AND l.isDeleted = false")
     Optional<Book> findByIdAndNotDeleted(@Param("id") Long id);

@@ -18,6 +18,8 @@ import com.bibliproject.biblioteca.repository.BookRepository;
 import com.bibliproject.biblioteca.repository.LoanRepository;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,9 +40,9 @@ public class LoanService {
     private final BookService bookService;
 
 
-    public List<SimpleLoanResponseStudent> findAll() {
-        List<Loan> loans = loanRepository.findAllNotDeleted();
-        return LoanMapper.toSimpleLoanResponseStudentList(loans);
+    public Page<SimpleLoanResponseStudent> findAll(Pageable pageable) {
+        Page<Loan> loans = loanRepository.findAllNotDeleted(pageable);
+        return loans.map(LoanMapper::toSimpleLoanResponseStudent);
     }
 
     public SimpleLoanResponse findById(long id) {

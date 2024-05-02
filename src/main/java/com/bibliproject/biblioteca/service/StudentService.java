@@ -7,6 +7,8 @@ import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +22,9 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public List <SimpleStudentResponse> findAll() {
-        List<Student> students = studentRepository.findAllNotDeleted();
-        return StudentMapper.toSimpleStudentResponseList(students);
+    public Page <SimpleStudentResponse> findAll(Pageable pageable) {
+        Page<Student> students = studentRepository.findAllNotDeleted(pageable);
+        return students.map(StudentMapper::toSimpleStudentResponse);
     }
     public SimpleStudentResponse findById(long id) {
         return StudentMapper.toSimpleStudentResponse(studentRepository.findByIdAndNotDeleted(id)

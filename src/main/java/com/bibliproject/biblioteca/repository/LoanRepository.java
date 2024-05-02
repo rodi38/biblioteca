@@ -1,6 +1,8 @@
 package com.bibliproject.biblioteca.repository;
 
 import com.bibliproject.biblioteca.domain.entity.Loan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,10 +17,10 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     List<Loan> findLoansByStudentId(Long id);
 
     @Query("SELECT l FROM Loan l WHERE l.isDeleted = false")
-    List<Loan> findAllNotDeleted();
+    Page<Loan> findAllNotDeleted(Pageable pageable);
 
     @Query("SELECT l FROM Loan l WHERE l.isDeleted = true")
-    List<Loan> findAllDeleted();
+    List<Loan> findAllDeleted(Pageable pageable);
 
     @Query("SELECT l FROM Loan l WHERE l.id = :id AND l.isDeleted = false")
     Optional<Loan> findByIdAndNotDeleted(@Param("id") Long id);

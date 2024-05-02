@@ -5,6 +5,7 @@ import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanRes
 import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponseWithoutStudent;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import lombok.AllArgsConstructor;
+import org.hibernate.query.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,7 @@ public class LoanMapper {
 
 
 
-
+//wtt pagination
     public static List<SimpleLoanResponseStudent> toSimpleLoanResponseStudentList(List<Loan> loanList) {
         if (loanList == null) {
             return null;
@@ -157,4 +158,6 @@ public class LoanMapper {
 
         return simpleLoanResponseStudentList;
     }
+
+
 }

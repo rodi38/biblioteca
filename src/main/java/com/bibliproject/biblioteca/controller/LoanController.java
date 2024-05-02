@@ -3,6 +3,8 @@ package com.bibliproject.biblioteca.controller;
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.CustomResponse;
 import com.bibliproject.biblioteca.service.LoanService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,10 @@ public class LoanController {
     }
 
     @GetMapping
-    public ResponseEntity <CustomResponse> findAll() {
-        CustomResponse response = new CustomResponse(true, "Successfully get all loans.", loanService.findAll());
+    public ResponseEntity <CustomResponse> findAll(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        CustomResponse response = new CustomResponse(true, "Successfully get all loans.", loanService.findAll(pageable));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
