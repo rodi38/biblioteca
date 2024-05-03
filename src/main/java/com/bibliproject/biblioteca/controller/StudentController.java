@@ -27,9 +27,10 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity <CustomResponse> findAll(@RequestParam(defaultValue = "0") int page,
-                                                   @RequestParam(defaultValue = "10") int size) {
+                                                   @RequestParam(defaultValue = "10") int size,
+                                                   @RequestParam(required = false) String search) {
         Pageable pageable = PageRequest.of(page, size);
-        CustomResponse response = new CustomResponse(true, "Successfully get all students",studentService.findAll(pageable));
+        CustomResponse response = new CustomResponse(true, "Successfully get all students",studentService.findAll(search, pageable));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

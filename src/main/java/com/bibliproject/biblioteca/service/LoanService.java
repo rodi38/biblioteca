@@ -40,8 +40,13 @@ public class LoanService {
     private final BookService bookService;
 
 
-    public Page<SimpleLoanResponseStudent> findAll(Pageable pageable) {
-        Page<Loan> loans = loanRepository.findAllNotDeleted(pageable);
+    public Page<SimpleLoanResponseStudent> findAll(String search, Pageable pageable) {
+        Page<Loan> loans;
+        if (search != null) {
+            loans = loanRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
+        } else  {
+            loans = loanRepository.findAllNotDeleted(pageable);
+        }
         return loans.map(LoanMapper::toSimpleLoanResponseStudent);
     }
 
