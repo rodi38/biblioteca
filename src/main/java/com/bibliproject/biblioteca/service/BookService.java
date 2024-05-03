@@ -21,8 +21,14 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Page<BookResponseDto > findAll(Pageable pageable) {
-        Page<Book> books = bookRepository.findAllNotDeleted(pageable);
+    public Page<BookResponseDto > findAll(String search, Pageable pageable) {
+        Page<Book> books;
+
+        if (search != null) {
+           books = bookRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
+        } else {
+            books = bookRepository.findAllNotDeleted(pageable);
+        }
         return books.map(BookMapper::toDtoResponse);
     }
 

@@ -22,8 +22,14 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Page <SimpleStudentResponse> findAll(Pageable pageable) {
-        Page<Student> students = studentRepository.findAllNotDeleted(pageable);
+    public Page <SimpleStudentResponse> findAll(String search, Pageable pageable) {
+        Page<Student> students;
+
+        if (search != null) {
+            students  = studentRepository.findAllNotDeleted(pageable);
+        } else {
+            students  = studentRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
+        }
         return students.map(StudentMapper::toSimpleStudentResponse);
     }
     public SimpleStudentResponse findById(long id) {

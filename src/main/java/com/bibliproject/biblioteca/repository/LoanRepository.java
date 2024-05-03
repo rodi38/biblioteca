@@ -19,6 +19,10 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Query("SELECT l FROM Loan l WHERE l.isDeleted = false")
     Page<Loan> findAllNotDeleted(Pageable pageable);
 
+    @Query("SELECT l FROM Loan l WHERE l.isDeleted = false AND (l.student.fullName LIKE %:search% OR l.student.email LIKE %:search% OR l.book.title LIKE %:search%)")
+    Page<Loan> findAllNotDeletedAndMatchesSearch(@Param("search") String search, Pageable pageable);
+
+
     @Query("SELECT l FROM Loan l WHERE l.isDeleted = true")
     List<Loan> findAllDeleted(Pageable pageable);
 
