@@ -24,11 +24,12 @@ public class StudentService {
 
     public Page <SimpleStudentResponse> findAll(String search, Pageable pageable) {
         Page<Student> students;
-
         if (search != null) {
-            students  = studentRepository.findAllNotDeleted(pageable);
-        } else {
             students  = studentRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
+
+        } else {
+            students  = studentRepository.findAllNotDeleted(pageable);
+
         }
         return students.map(StudentMapper::toSimpleStudentResponse);
     }
