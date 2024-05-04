@@ -3,7 +3,9 @@ package com.bibliproject.biblioteca.service;
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Book;
+import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
+import com.bibliproject.biblioteca.exception.book.BookCurrentlyLoanedException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.repository.BookRepository;
 import org.springframework.data.domain.Page;
@@ -56,13 +58,18 @@ public class BookService {
     }
 
     public void delete(long id) {
-        Book book = BookMapper.toEntity(findById(id));
+        Book book = bookRepository.findByIdAndNotDeleted(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+
+        for (Loan loan : book.getLoans()) {
+            if (loan.getReturnDate() == null) {
+                throw new BookCurrentlyLoanedException("O livro está emprestado, não é possivel deletar.");
+            }
+        }
         book.setDeleted(true);
         book.setDeletedAt(LocalDateTime.now());
         bookRepository.save(book);
 
     }
-
-
 
 }
