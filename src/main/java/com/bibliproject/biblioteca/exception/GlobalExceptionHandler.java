@@ -2,6 +2,7 @@ package com.bibliproject.biblioteca.exception;
 
 
 import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
+import com.bibliproject.biblioteca.exception.book.BookCurrentlyLoanedException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
@@ -69,6 +70,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {StudentHaveDebtException.class})
     public ResponseEntity<Object> studentHaveDebtExceptionHandling(StudentHaveDebtException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {BookCurrentlyLoanedException.class})
+    public ResponseEntity<Object> bookCurrentlyLoanedExceptionHandling(BookCurrentlyLoanedException e) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
         response.put("message", e.getMessage());
