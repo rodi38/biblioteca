@@ -5,6 +5,7 @@ import com.bibliproject.biblioteca.domain.dto.simple.response.student.SimpleStud
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
 import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
+import com.bibliproject.biblioteca.exception.student.StudentNotFoundException;
 import com.bibliproject.biblioteca.repository.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ public class StudentService {
     }
     public SimpleStudentResponse findById(long id) {
         return StudentMapper.toSimpleStudentResponse(studentRepository.findByIdAndNotDeleted(id)
-                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id)));
+                .orElseThrow(() -> new StudentNotFoundException(String.format("O estudante com o id: %d não foi encontrado.  ", id))));
     }
 
     public SimpleStudentResponse create(StudentRequestDto studentRequestDto) {

@@ -2,8 +2,10 @@ package com.bibliproject.biblioteca.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -22,9 +24,11 @@ public class Student {
     private Long id;
 
     @NotBlank(message = "O nome completo é obrigatório")
+    @Size(min = 5, max = 80, message = "O nome completo deve ter entre 5 e 80 caracteres")
     private String fullName;
 
     @NotBlank(message = "O email é obrigatório")
+    @Email(message = "O email deve ser válido")
     @Column(unique = true)
     private String email;
 
@@ -32,7 +36,7 @@ public class Student {
     @JsonManagedReference
     private List<Loan> loans;
 
-    @Max(value = 12, message = "The max number of barrowed books is 12.")
+    @Max(value = 12, message = "Este estudante já tem o máximo de livros emprestados(12), deve devolver algum para pegar outro.")
     private int borrowedBooksCount;
 
 

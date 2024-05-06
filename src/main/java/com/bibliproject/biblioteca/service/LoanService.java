@@ -61,7 +61,7 @@ public class LoanService {
         Student student = StudentMapper.simpleStudentResponseToEntity(studentService.findById(loanRequestDto.getStudentId()));
 
         if (book.getStockQuantity() <= 0) {
-            throw new BookOutOfStockException();
+            throw new BookOutOfStockException("Livro fora de estoque.");
         }
         book.setStockQuantity(book.getStockQuantity() - 1);
         Loan loan = new Loan();
