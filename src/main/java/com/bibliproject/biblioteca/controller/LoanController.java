@@ -29,7 +29,7 @@ public class LoanController {
 
     @GetMapping
     public ResponseEntity <CustomResponse> findAll(@RequestParam(defaultValue = "0") int page,
-                                                   @RequestParam(defaultValue = "10") int size,
+                                                   @RequestParam(defaultValue = "5") int size,
                                                    @RequestParam(required = false) String search) {
         Pageable pageable = PageRequest.of(page, size);
         CustomResponse response = new CustomResponse(true, "Successfully get all loans.", loanService.findAll(search, pageable));
