@@ -35,7 +35,6 @@ public class Loan {
     @Column(nullable = false, updatable = false)
     private LocalDateTime loanDate;
 
-
     private LocalDateTime returnDate;
 
     private LocalDateTime limitDate;
