@@ -10,7 +10,9 @@ import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
 import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.exception.student.StudentNotFoundException;
 import jakarta.validation.ConstraintViolationException;
+import org.apache.coyote.Response;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -101,6 +103,14 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
 
         response.put("errors", errors);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", "O registro já existe no sistema.");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

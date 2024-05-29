@@ -12,7 +12,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
+                .allowedOrigins("http://localhost:5173", "file:///C:/Users/rodrigo/Projects/biblifront/dist/index.html")
                 .allowedMethods("*");
     }
 }
