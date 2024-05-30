@@ -1,9 +1,11 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.StudentRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.audity.StudentAudityResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.student.SimpleStudentResponse;
 import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
+import com.bibliproject.biblioteca.domain.mapper.mapstructmapper.StudentMapperMapstruct;
 import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.exception.student.StudentNotFoundException;
 import com.bibliproject.biblioteca.repository.StudentRepository;
@@ -23,7 +25,7 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Page <SimpleStudentResponse> findAll(String search, Pageable pageable) {
+    public Page <SimpleStudentResponse> findAllNotDeleted(String search, Pageable pageable) {
         Page<Student> students;
         if (search != null) {
             students  = studentRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
@@ -34,6 +36,20 @@ public class StudentService {
         }
         return students.map(StudentMapper::toSimpleStudentResponse);
     }
+
+    public Page <StudentAudityResponseDto> findAllDeleted(String search, Pageable pageable) {
+        Page<Student> students;
+        if (search != null) {
+            students  = studentRepository.findAllDeletedAndMatchesSearch(search, pageable);
+
+        } else {
+            students  = studentRepository.findAllDeleted(pageable);
+
+        }
+        return students.map(StudentMapperMapstruct.INSTANCE::studentToStudentAudityResponseDto);
+    }
+
+
     public SimpleStudentResponse findById(long id) {
         return StudentMapper.toSimpleStudentResponse(studentRepository.findByIdAndNotDeleted(id)
                 .orElseThrow(() -> new StudentNotFoundException(String.format("O estudante com o id: %d não foi encontrado.  ", id))));
