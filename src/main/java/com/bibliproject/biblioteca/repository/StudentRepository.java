@@ -25,6 +25,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT s FROM Student s WHERE s.isDeleted = true")
     Page<Student> findAllDeleted(Pageable pageable);
 
+    @Query("SELECT s FROM Student s WHERE s.isDeleted = true AND (s.fullName LIKE %:search% " +
+            "OR s.email LIKE %:search% )")
+    Page<Student> findAllDeletedAndMatchesSearch(@Param("search") String search, Pageable pageable);
+
     @Query("SELECT s FROM Student s WHERE s.id = :id AND s.isDeleted = false")
     Optional<Student> findByIdAndNotDeleted(@Param("id") Long id);
 

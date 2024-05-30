@@ -35,8 +35,10 @@ public class Loan {
     @Column(nullable = false, updatable = false)
     private LocalDateTime loanDate;
 
+
     private LocalDateTime returnDate;
 
+    @Column(nullable = false)
     private LocalDateTime limitDate;
 
     public LocalDateTime deletedAt;

@@ -17,14 +17,26 @@ public class BookController {
 
     private BookService bookService;
 
+
+    //separar findAll delete do findAll not delete
     @GetMapping
-    public ResponseEntity <CustomResponse> findAll(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity <CustomResponse> findAllNotDeleted(@RequestParam(defaultValue = "0") int page,
                                                    @RequestParam(defaultValue = "5") int size,
-                                                   @RequestParam(required = false) String search) {
+                                                   @RequestParam(required = false) String search, @RequestParam(required = false, defaultValue = "false") Boolean audit ) {
         Pageable pageable = PageRequest.of(page, size);
-        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.findAll(search, pageable));
+        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.findAllNotDeleted(search, pageable));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/audit")
+    public ResponseEntity <CustomResponse> findAllDeleted(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "5") int size,
+                                                             @RequestParam(required = false) String search ) {
+        Pageable pageable = PageRequest.of(page, size);
+        CustomResponse response = new CustomResponse(true, "Successfully get all books", bookService.findAllDeleted(search, pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 
     @PostMapping
     public ResponseEntity < CustomResponse > createBook(@RequestBody BookRequestDto bookRequestDto) {

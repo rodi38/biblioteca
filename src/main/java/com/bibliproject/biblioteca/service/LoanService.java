@@ -1,6 +1,7 @@
 package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.LoanRequestDto;
+import com.bibliproject.biblioteca.domain.dto.response.audity.LoanAudityResponseDto;
 import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponse;
 import com.bibliproject.biblioteca.domain.dto.simple.response.loan.SimpleLoanResponseStudent;
 import com.bibliproject.biblioteca.domain.entity.Book;
@@ -9,6 +10,7 @@ import com.bibliproject.biblioteca.domain.entity.Student;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
 import com.bibliproject.biblioteca.domain.mapper.LoanMapper;
 import com.bibliproject.biblioteca.domain.mapper.StudentMapper;
+import com.bibliproject.biblioteca.domain.mapper.mapstructmapper.LoanMapperMapstruct;
 import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.book.BookOutOfStockException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
@@ -40,7 +42,7 @@ public class LoanService {
     private final BookService bookService;
 
 
-    public Page<SimpleLoanResponseStudent> findAll(String search, Pageable pageable) {
+    public Page<SimpleLoanResponseStudent> findAllNotDeleted(String search, Pageable pageable) {
         Page<Loan> loans;
         if (search != null) {
             loans = loanRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
@@ -49,6 +51,19 @@ public class LoanService {
         }
         return loans.map(LoanMapper::toSimpleLoanResponseStudent);
     }
+
+    public Page<LoanAudityResponseDto> findAllDeleted(String search, Pageable pageable) {
+        Page<Loan> loans;
+        if (search != null) {
+            loans = loanRepository.findAllDeletedAndMatchesSearch(search, pageable);
+        } else  {
+            loans = loanRepository.findAllDeleted(pageable);
+        }
+
+
+        return loans.map(LoanMapperMapstruct.INSTANCE::loanToAudityResponseDto);
+    }
+
 
     public SimpleLoanResponse findById(long id) {
         return LoanMapper.toSimpleLoanResponse(loanRepository.findByIdAndNotDeleted(id)
