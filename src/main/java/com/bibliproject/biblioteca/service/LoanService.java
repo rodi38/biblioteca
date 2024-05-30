@@ -47,6 +47,8 @@ public class LoanService {
         } else  {
             loans = loanRepository.findAllNotDeleted(pageable);
         }
+
+
         return loans.map(LoanMapper::toSimpleLoanResponseStudent);
     }
 

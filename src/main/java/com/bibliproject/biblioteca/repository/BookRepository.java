@@ -17,9 +17,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b WHERE b.isDeleted = false")
     Page<Book> findAllNotDeleted(Pageable pageable);
 
-    @Query("SELECT b FROM Book b WHERE b.isDeleted = false AND (b.title LIKE %:search% OR b.author LIKE %:search% OR b.category LIKE %:search% OR b.publisher LIKE %:search%)")
+    @Query("SELECT b FROM Book b WHERE b.isDeleted = false AND (b.title LIKE %:search% OR b.isbn LIKE %:search% OR b.author  LIKE %:search% OR b.category LIKE %:search% OR b.publisher LIKE %:search%)")
     Page<Book> findAllNotDeletedAndMatchesSearch(@Param("search") String search, Pageable pageable);
 
+    @Query("SELECT b FROM Book b WHERE b.isDeleted = true AND (b.title LIKE %:search% OR b.isbn LIKE %:search% OR b.author LIKE %:search% OR b.category LIKE %:search% OR b.publisher LIKE %:search%)")
+    Page<Book> findAllDeletedAndMatchesSearch(@Param("search") String search, Pageable pageable);
 
     @Query("SELECT b FROM Book b WHERE b.isDeleted = true")
     Page<Book> findAllDeleted(Pageable pageable);

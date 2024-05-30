@@ -2,9 +2,11 @@ package com.bibliproject.biblioteca.service;
 
 import com.bibliproject.biblioteca.domain.dto.request.BookRequestDto;
 import com.bibliproject.biblioteca.domain.dto.response.BookResponseDto;
+import com.bibliproject.biblioteca.domain.dto.response.audity.BookAudityResponseDto;
 import com.bibliproject.biblioteca.domain.entity.Book;
 import com.bibliproject.biblioteca.domain.entity.Loan;
 import com.bibliproject.biblioteca.domain.mapper.BookMapper;
+import com.bibliproject.biblioteca.domain.mapper.mapstructmapper.BookMapperMapstruct;
 import com.bibliproject.biblioteca.exception.book.BookCurrentlyLoanedException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.repository.BookRepository;
@@ -23,15 +25,28 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Page<BookResponseDto > findAll(String search, Pageable pageable) {
+    public Page<BookResponseDto> findAllNotDeleted(String search, Pageable pageable) {
         Page<Book> books;
 
         if (search != null) {
-           books = bookRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
+            books = bookRepository.findAllNotDeletedAndMatchesSearch(search, pageable);
         } else {
             books = bookRepository.findAllNotDeleted(pageable);
         }
+
         return books.map(BookMapper::toDtoResponse);
+    }
+
+    public Page<BookAudityResponseDto> findAllDeleted(String search, Pageable pageable) {
+        Page<Book> books;
+
+        if (search != null) {
+            books = bookRepository.findAllDeletedAndMatchesSearch(search, pageable);
+        } else {
+            books = bookRepository.findAllDeleted(pageable);
+        }
+
+        return books.map(BookMapperMapstruct.INSTANCE::bookToBookAudityResponseDto);
     }
 
     public BookResponseDto findById(Long id) {

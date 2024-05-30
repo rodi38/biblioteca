@@ -41,6 +41,7 @@ public class Book {
     @Size(min=3, max=30,  message = "O nome da categoria deve ter entre 3 e 30 caracteres")
     private String category;
 
+    @Column(unique = true)
     @NotBlank(message = "O isbn é obrigatório")
     private String isbn;
 
