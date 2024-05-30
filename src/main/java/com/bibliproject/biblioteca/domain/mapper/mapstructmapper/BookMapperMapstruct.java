@@ -5,6 +5,7 @@ import com.bibliproject.biblioteca.domain.dto.response.audity.BookAudityResponse
 import com.bibliproject.biblioteca.domain.entity.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,7 +18,10 @@ public interface BookMapperMapstruct {
 
     BookAudityResponseDto bookToBookAudityResponseDto(Book book);
 
-    List<BookAudityResponseDto> booksToBookAudityResponseList(List<Book> books);
+
+
+
+
 
 
 
