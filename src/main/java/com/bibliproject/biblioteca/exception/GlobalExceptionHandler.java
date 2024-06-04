@@ -108,9 +108,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", false);
-        response.put("message", "O registro já existe no sistema.");
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
     }
 }
