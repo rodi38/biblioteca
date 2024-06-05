@@ -67,7 +67,7 @@ public class LoanService {
 
     public SimpleLoanResponse findById(long id) {
         return LoanMapper.toSimpleLoanResponse(loanRepository.findByIdAndNotDeleted(id)
-                .orElseThrow(() -> new LoanNotFoundException("Loan not found with id: " + id)));
+                .orElseThrow(() -> new LoanNotFoundException("Empréstimo com o id: " + id + " não foi encontrado.")));
 
     }
 
@@ -88,7 +88,7 @@ public class LoanService {
             loan.setStudent(student);
             student.getLoans().add(loan);
             if (!canStudentBorrow(student.getLoans())) {
-                throw new LoanOverdueException("This student has some overdue books, they need to return the books before borrowing again.");
+                throw new LoanOverdueException("O estudante possui livros pendentes de devolução, que devem ser entregues para que ele possa pegar mais livros emprestados.");
             }
         } else {
             student.setLoans(List.of(loan));
@@ -107,7 +107,7 @@ public class LoanService {
     public SimpleLoanResponse update(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         if (loan.getReturnDate() != null) {
-            throw new BookAlreadyReturnedException("This book has already been returned");
+            throw new BookAlreadyReturnedException("Este livro já foi retornado.");
         }
         loan.setReturnDate(LocalDateTime.now());
         loan.getBook().setStockQuantity(loan.getBook().getStockQuantity() + 1);
@@ -124,7 +124,7 @@ public class LoanService {
     public void delete(long id) {
         Loan loan = LoanMapper.simpleLoanResponseToEntity(findById(id));
         if (loan.getReturnDate() == null){
-            throw new StudentHaveDebtException("Student have barrowed books, return them to delete.");
+            throw new StudentHaveDebtException("O livro ainda não foi retornado, retorne-o para que o registro possa ser deletado.");
         }
         loan.setDeleted(true);
         loan.setDeletedAt(LocalDateTime.now());
