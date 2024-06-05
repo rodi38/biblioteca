@@ -78,7 +78,7 @@ public class StudentService {
     public void delete(long id) {
         Student student = StudentMapper.simpleStudentResponseToEntity(findById(id));
         if (student.getBorrowedBooksCount() >0){
-            throw new StudentHaveDebtException("Student have borrowed books, return them to delete.");
+            throw new StudentHaveDebtException("O estudante possui livros pendentes de devolução, que devem ser entregues para que o registro seja deletado.");
         }
         student.setDeleted(true);
         student.setDeletedAt(LocalDateTime.now());
