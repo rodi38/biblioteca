@@ -26,7 +26,7 @@ public class Book {
     private Long id;
 
     @Min(value = 0, message = "O stock precisa ser um número válido e positivo.")
-    @Max(value = 20,message = "O stock precisa ser um número positivo abaixo de 20" )
+    @Max(value = 1000000000, message = "O stock precisa ser um número positivo abaixo de abaixo de 1000000000" )
     private int stockQuantity;
 
     @NotBlank(message = "O título é obrigatório")
