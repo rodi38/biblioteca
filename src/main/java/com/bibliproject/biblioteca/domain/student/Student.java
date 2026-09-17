@@ -16,6 +16,7 @@ import java.util.List;
 public class Student {
 
     private Long id;
+    private Long userId;
     private String fullName;
     private Email email;
     private List<Loan> loans;

@@ -17,5 +17,7 @@ public interface StudentRepository {
 
     Optional<Student> findByIdAndNotDeleted(Long id);
 
+    Optional<Student> findByUserId(Long userId);
+
     Student save(Student student);
 }

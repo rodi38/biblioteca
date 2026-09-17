@@ -36,4 +36,6 @@ jobs:
       - name: Run tests
         env:
           DATABASE_PASSWORD: postgres
+          JWT_SECRET: ci-test-secret-key-please-override-in-prod-0123456789
+          ADMIN_PASSWORD: ci-admin-password-123
         run: ./mvnw -B verify

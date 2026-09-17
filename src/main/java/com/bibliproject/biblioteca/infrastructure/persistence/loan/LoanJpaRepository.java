@@ -29,6 +29,9 @@ public interface LoanJpaRepository extends JpaRepository<LoanJpaEntity, Long> {
     @Query("SELECT l FROM Loan l WHERE l.id = :id AND l.isDeleted = false")
     Optional<LoanJpaEntity> findByIdAndNotDeleted(@Param("id") Long id);
 
+    @Query("SELECT l FROM Loan l WHERE l.isDeleted = false AND l.student.id = :studentId")
+    Page<LoanJpaEntity> findAllNotDeletedByStudentId(@Param("studentId") Long studentId, Pageable pageable);
+
     @Query("SELECT l FROM Loan l WHERE l.isDeleted = false AND l.returnDate IS NULL AND l.book.id = :bookId")
     List<LoanJpaEntity> findActiveByBookId(@Param("bookId") Long bookId);
 

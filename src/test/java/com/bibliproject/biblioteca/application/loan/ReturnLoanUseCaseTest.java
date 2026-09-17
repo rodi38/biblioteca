@@ -1,13 +1,17 @@
 package com.bibliproject.biblioteca.application.loan;
 
+import com.bibliproject.biblioteca.domain.auth.AuthenticatedPrincipal;
+import com.bibliproject.biblioteca.domain.auth.CurrentUserProvider;
 import com.bibliproject.biblioteca.domain.book.Book;
 import com.bibliproject.biblioteca.domain.book.BookRepository;
 import com.bibliproject.biblioteca.domain.loan.Loan;
 import com.bibliproject.biblioteca.domain.loan.LoanRepository;
 import com.bibliproject.biblioteca.domain.student.Student;
 import com.bibliproject.biblioteca.domain.student.StudentRepository;
+import com.bibliproject.biblioteca.domain.user.Role;
 import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.loan.LoanNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -19,6 +23,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +38,17 @@ class ReturnLoanUseCaseTest {
     @Mock
     private StudentRepository studentRepository;
 
+    @Mock
+    private CurrentUserProvider currentUserProvider;
+
+    @BeforeEach
+    void setUp() {
+        lenient().when(currentUserProvider.getCurrentUser())
+                .thenReturn(new AuthenticatedPrincipal(9L, "admin@a.com", Role.ADMIN, null));
+    }
+
     private ReturnLoanUseCase useCase() {
-        return new ReturnLoanUseCase(loanRepository, bookRepository, studentRepository);
+        return new ReturnLoanUseCase(loanRepository, bookRepository, studentRepository, currentUserProvider);
     }
 
     @Test

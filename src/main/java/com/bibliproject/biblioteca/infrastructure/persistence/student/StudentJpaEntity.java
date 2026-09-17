@@ -31,6 +31,9 @@ public class StudentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id", unique = true)
+    private Long userId;
+
     private String fullName;
 
     @Column(unique = true)

@@ -18,6 +18,8 @@ public interface LoanRepository {
 
     Optional<Loan> findByIdAndNotDeleted(Long id);
 
+    Page<Loan> findAllNotDeletedByStudentId(Long studentId, Pageable pageable);
+
     List<Loan> findActiveByBookId(Long bookId);
 
     List<Loan> findActiveByStudentId(Long studentId);

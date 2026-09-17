@@ -43,6 +43,11 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
+    public Optional<Student> findByUserId(Long userId) {
+        return studentJpaRepository.findByUserId(userId).map(StudentPersistenceMapper::toDomain);
+    }
+
+    @Override
     public Student save(Student student) {
         StudentJpaEntity saved = studentJpaRepository.save(StudentPersistenceMapper.toJpaEntity(student));
         return StudentPersistenceMapper.toDomain(saved);

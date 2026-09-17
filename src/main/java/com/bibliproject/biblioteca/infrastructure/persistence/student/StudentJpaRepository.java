@@ -28,4 +28,6 @@ public interface StudentJpaRepository extends JpaRepository<StudentJpaEntity, Lo
 
     @Query("SELECT s FROM Student s WHERE s.id = :id AND s.isDeleted = false")
     Optional<StudentJpaEntity> findByIdAndNotDeleted(@Param("id") Long id);
+
+    Optional<StudentJpaEntity> findByUserId(Long userId);
 }

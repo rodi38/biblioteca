@@ -1,11 +1,13 @@
 package com.bibliproject.biblioteca.application.loan;
 
+import com.bibliproject.biblioteca.domain.auth.CurrentUserProvider;
 import com.bibliproject.biblioteca.domain.book.Book;
 import com.bibliproject.biblioteca.domain.book.BookRepository;
 import com.bibliproject.biblioteca.domain.loan.Loan;
 import com.bibliproject.biblioteca.domain.loan.LoanRepository;
 import com.bibliproject.biblioteca.domain.student.Student;
 import com.bibliproject.biblioteca.domain.student.StudentRepository;
+import com.bibliproject.biblioteca.exception.auth.ForbiddenOperationException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
 import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
 import com.bibliproject.biblioteca.exception.student.StudentBorrowLimitReachedException;
@@ -24,16 +26,23 @@ public class CreateLoanUseCase {
     private final LoanRepository loanRepository;
     private final StudentRepository studentRepository;
     private final BookRepository bookRepository;
+    private final CurrentUserProvider currentUserProvider;
 
     public CreateLoanUseCase(LoanRepository loanRepository, StudentRepository studentRepository,
-                              BookRepository bookRepository) {
+                              BookRepository bookRepository, CurrentUserProvider currentUserProvider) {
         this.loanRepository = loanRepository;
         this.studentRepository = studentRepository;
         this.bookRepository = bookRepository;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Transactional
     public Loan execute(Long bookId, Long studentId) {
+        var currentUser = currentUserProvider.getCurrentUser();
+        if (!currentUser.isAdmin() && !currentUser.ownsStudent(studentId)) {
+            throw new ForbiddenOperationException("Você só pode criar empréstimos para o seu próprio cadastro.");
+        }
+
         Book book = bookRepository.findByIdAndNotDeleted(bookId)
                 .orElseThrow(() -> new BookNotFoundException(bookId));
         Student student = studentRepository.findByIdAndNotDeleted(studentId)

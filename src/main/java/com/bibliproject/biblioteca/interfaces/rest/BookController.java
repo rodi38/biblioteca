@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,6 +42,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/audit")
     public ResponseEntity<CustomResponse> findAllDeleted(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "5") int size,
@@ -51,6 +53,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CustomResponse> createBook(@Valid @RequestBody BookRequestDto bookRequestDto) {
         CustomResponse response = new CustomResponse(true, "Successfully created the book",
@@ -58,6 +61,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CustomResponse> updateBook(@Valid @RequestBody BookRequestDto bookRequestDto, @PathVariable Long id) {
         CustomResponse response = new CustomResponse(true, "Book has been updated",
@@ -74,6 +78,7 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteBookUseCase.execute(id);

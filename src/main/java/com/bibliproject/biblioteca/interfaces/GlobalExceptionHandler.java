@@ -1,5 +1,6 @@
 package com.bibliproject.biblioteca.interfaces;
 
+import com.bibliproject.biblioteca.exception.auth.ForbiddenOperationException;
 import com.bibliproject.biblioteca.exception.book.BookAlreadyReturnedException;
 import com.bibliproject.biblioteca.exception.book.BookCurrentlyLoanedException;
 import com.bibliproject.biblioteca.exception.book.BookNotFoundException;
@@ -9,6 +10,9 @@ import com.bibliproject.biblioteca.exception.loan.LoanOverdueException;
 import com.bibliproject.biblioteca.exception.student.StudentBorrowLimitReachedException;
 import com.bibliproject.biblioteca.exception.student.StudentHaveDebtException;
 import com.bibliproject.biblioteca.exception.student.StudentNotFoundException;
+import com.bibliproject.biblioteca.exception.user.EmailAlreadyInUseException;
+import com.bibliproject.biblioteca.exception.user.InvalidCredentialsException;
+import com.bibliproject.biblioteca.exception.user.InvalidPasswordException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -95,6 +99,38 @@ public class GlobalExceptionHandler {
         response.put("success", false);
         response.put("message", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {EmailAlreadyInUseException.class})
+    public ResponseEntity<Object> emailAlreadyInUseExceptionHandling(EmailAlreadyInUseException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = {InvalidPasswordException.class})
+    public ResponseEntity<Object> invalidPasswordExceptionHandling(InvalidPasswordException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {InvalidCredentialsException.class})
+    public ResponseEntity<Object> invalidCredentialsExceptionHandling(InvalidCredentialsException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = {ForbiddenOperationException.class})
+    public ResponseEntity<Object> forbiddenOperationExceptionHandling(ForbiddenOperationException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

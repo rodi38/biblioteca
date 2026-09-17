@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +31,7 @@ public class StudentController {
     private final UpdateStudentUseCase updateStudentUseCase;
     private final DeleteStudentUseCase deleteStudentUseCase;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CustomResponse> create(@Valid @RequestBody StudentRequestDto studentRequestDto) {
         CustomResponse response = new CustomResponse(true, "Student has been created",
@@ -37,6 +39,7 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<CustomResponse> findAllNotDeleted(@RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "5") int size,
@@ -47,6 +50,7 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/audit")
     public ResponseEntity<CustomResponse> findAllDeleted(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "5") int size,
@@ -72,6 +76,7 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteStudentUseCase.execute(id);

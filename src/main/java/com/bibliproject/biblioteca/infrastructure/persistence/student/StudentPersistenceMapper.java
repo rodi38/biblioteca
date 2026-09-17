@@ -20,6 +20,7 @@ public final class StudentPersistenceMapper {
 
         return new Student(
                 entity.getId(),
+                entity.getUserId(),
                 entity.getFullName(),
                 new Email(entity.getEmail()),
                 loans,
@@ -34,6 +35,7 @@ public final class StudentPersistenceMapper {
     public static StudentJpaEntity toJpaEntity(Student student) {
         StudentJpaEntity entity = new StudentJpaEntity();
         entity.setId(student.getId());
+        entity.setUserId(student.getUserId());
         entity.setFullName(student.getFullName());
         entity.setEmail(student.getEmail().value());
         entity.setBorrowedBooksCount(student.getBorrowedBooksCount());

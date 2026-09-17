@@ -44,6 +44,11 @@ public class LoanRepositoryImpl implements LoanRepository {
     }
 
     @Override
+    public Page<Loan> findAllNotDeletedByStudentId(Long studentId, Pageable pageable) {
+        return loanJpaRepository.findAllNotDeletedByStudentId(studentId, pageable).map(LoanPersistenceMapper::toDomain);
+    }
+
+    @Override
     public List<Loan> findActiveByBookId(Long bookId) {
         return loanJpaRepository.findActiveByBookId(bookId).stream().map(LoanPersistenceMapper::toDomain).toList();
     }

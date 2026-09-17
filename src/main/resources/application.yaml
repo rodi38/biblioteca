@@ -9,3 +9,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
+admin:
+  seed:
+    email: ${ADMIN_EMAIL:admin@biblioteca.local}
+    password: ${ADMIN_PASSWORD}
